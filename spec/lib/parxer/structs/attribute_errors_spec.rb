@@ -24,21 +24,19 @@ describe Parxer::AttributeErrors do
 
     subject { described_class.new(attr_name) }
 
-    context "adding error" do
-      it { expect { subject.add_error(error) }.to change(subject.errors, :count).from(0).to(1) }
-      it { expect { subject.add_error(error) }.to change(subject.errors, :first).from(nil).to(:error) }
+    it { expect { subject.add_error(error) }.to change(subject.errors, :count).from(0).to(1) }
+    it { expect { subject.add_error(error) }.to change(subject.errors, :first).from(nil).to(:error) }
 
-      context "adding the same error twice" do
-        before { subject.add_error(error) }
+    context "adding the same error twice" do
+      before { subject.add_error(error) }
 
-        it { expect { subject.add_error(error) }.not_to change(subject.errors, :count) }
-      end
+      it { expect { subject.add_error(error) }.not_to change(subject.errors, :count) }
+    end
 
-      context "adding another error" do
-        before { subject.add_error("another_error") }
+    context "adding another error" do
+      before { subject.add_error("another_error") }
 
-        it { expect { subject.add_error(error) }.to change(subject.errors, :count).from(1).to(2) }
-      end
+      it { expect { subject.add_error(error) }.to change(subject.errors, :count).from(1).to(2) }
     end
   end
 end
