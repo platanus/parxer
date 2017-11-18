@@ -35,14 +35,14 @@ describe Parxer::XlsParser, :xls do
     ]
   end
 
-  let(:parser_columns) do
+  let(:parser_attributes) do
     [
-      { attribute: :brand_name, name: "Marca" },
-      { attribute: :distributor_name, name: "Sub Distribuidor" },
-      { attribute: :address, name: "Direccion" },
-      { attribute: :commune, name: "Comuna" },
-      { attribute: :region, name: "Region" },
-      { attribute: :phone, name: "Telefono" }
+      double(id: :brand_name, name: "Marca"),
+      double(id: :distributor_name, name: "Sub Distribuidor"),
+      double(id: :address, name: "Direccion"),
+      double(id: :commune, name: "Comuna"),
+      double(id: :region, name: "Region"),
+      double(id: :phone, name: "Telefono")
     ]
   end
 

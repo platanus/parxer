@@ -22,14 +22,14 @@ class Parxer::XlsParser
     @value
   end
 
-  def self.columns
-    @columns ||= []
+  def self.attributes
+    @attributes ||= []
   end
 
   private
 
   def column_names
-    self.class.columns.map { |col| col[:attribute] }
+    self.class.attributes.map(&:id)
   end
 
   def parse_row(item_class, row, idx)
@@ -52,8 +52,8 @@ class Parxer::XlsParser
 
   def row_to_hash(row)
     pos = 0
-    self.class.columns.inject({}) do |memo, column|
-      memo[column[:attribute].to_sym] = extract_row_value(row, pos)
+    self.class.attributes.inject({}) do |memo, column|
+      memo[column.id.to_sym] = extract_row_value(row, pos)
       pos += 1
       memo
     end
