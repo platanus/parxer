@@ -1,4 +1,6 @@
 class Parxer::XlsParser
+  extend Parxer::XlsDsl
+
   attr_reader :file
 
   def initialize(file)
