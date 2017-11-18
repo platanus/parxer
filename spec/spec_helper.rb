@@ -5,7 +5,7 @@ formatters = [SimpleCov::Formatter::HTMLFormatter, Coveralls::SimpleCov::Formatt
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter::new(formatters)
 
 SimpleCov.start do
-  add_filter { |src| !(src.filename =~ /lib/) }
+  add_filter { |src| src.filename !~ /lib/ }
   add_filter "spec.rb"
 end
 
@@ -19,6 +19,4 @@ Dir[File.join(path)].each { |f| require f }
 RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
-
-  config.include TestHelpers
 end
