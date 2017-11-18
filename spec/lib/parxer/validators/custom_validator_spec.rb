@@ -1,19 +1,17 @@
 require "spec_helper"
 
 describe Parxer::CustomValidator do
-  let(:context) { double }
-  let(:validator) do
-    Proc.new do |item, value|
-      (item + value) == 4
-    end
+  let(:context) { double(value: value, item: item, another_method: 2) }
+  let(:condition) do
+    Proc.new { (item + value) == 4 }
   end
 
   let(:item) { 1 }
   let(:value) { 3 }
-  subject { described_class.new(context, validator) }
+  subject { described_class.new(context, condition) }
 
   describe "#validate" do
-    let(:execute) { subject.validate(item, value) }
+    let(:execute) { subject.validate }
 
     it { expect(execute).to eq(true) }
 
@@ -23,21 +21,15 @@ describe Parxer::CustomValidator do
       it { expect(execute).to eq(false) }
     end
 
-    context "when validator is not a Proc" do
-      let(:validator) { "not a proc" }
+    context "when condition is not a Proc" do
+      let(:condition) { "not a proc" }
 
-      it { expect { subject.validator }.to raise_error(Parxer::ValidatorError, /be a Proc/) }
+      it { expect { subject.condition }.to raise_error(Parxer::ValidatorError, /be a Proc/) }
     end
 
-    context "using given context" do
-      let(:context) do
-        [1, 2]
-      end
-
-      let(:validator) do
-        Proc.new do |_item, value|
-          (count + value) == 5
-        end
+    context "calling not delegated method from given context" do
+      let(:condition) do
+        Proc.new { (another_method + value) == 5 }
       end
 
       it { expect(execute).to eq(true) }
