@@ -1,15 +1,12 @@
 class Parxer::BaseValidator
   attr_reader :context
 
-  def initialize(context)
-    @context = context
-  end
-
   def condition
     raise Parxer::ValidatorError.new("'condition' method not implemented")
   end
 
-  def validate
+  def validate(ctx)
+    @context = ctx
     !!condition
   end
 

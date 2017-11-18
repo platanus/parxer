@@ -3,10 +3,10 @@ require "spec_helper"
 describe Parxer::RequiredValidator do
   let(:value) { 1 }
   let(:context) { double(value: value) }
-  subject { described_class.new(context) }
+  subject { described_class.new }
 
   describe "#validate" do
-    let(:execute) { subject.validate }
+    let(:execute) { subject.validate(context) }
 
     it { expect(execute).to eq(true) }
 
