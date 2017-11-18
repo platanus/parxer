@@ -25,7 +25,7 @@ class Parxer::XlsParser
   end
 
   def self.attributes
-    @attributes ||= []
+    @attributes ||= Parxer::Attributes.new
   end
 
   private

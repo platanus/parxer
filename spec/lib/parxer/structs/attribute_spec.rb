@@ -8,5 +8,6 @@ describe Parxer::Attribute do
   describe "#initialize" do
     it { expect(subject.id).to eq(id.to_sym) }
     it { expect(subject.name).to eq(params[:name]) }
+    it { expect(subject.validators).to eq([]) }
   end
 end
