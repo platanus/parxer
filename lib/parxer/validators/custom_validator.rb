@@ -1,9 +1,10 @@
 class Parxer::CustomValidator < Parxer::BaseValidator
-  def initialize(condition_proc)
+  def initialize(id, condition_proc)
     if !condition_proc.is_a?(Proc)
       raise Parxer::ValidatorError.new("'condition_proc' needs to be a Proc")
     end
 
+    @id = id.to_sym
     @condition = condition_proc
   end
 
@@ -12,6 +13,6 @@ class Parxer::CustomValidator < Parxer::BaseValidator
   end
 
   def validate(ctx)
-    !!ctx.instance_exec(&@condition)
+    !!ctx.instance_exec(&condition)
   end
 end

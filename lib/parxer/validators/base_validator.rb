@@ -1,5 +1,9 @@
 class Parxer::BaseValidator
-  attr_reader :context
+  attr_reader :context, :id
+
+  def initialize
+    @id = self.class.name.demodulize.tableize.singularize.chomp("_validator").to_sym
+  end
 
   def condition
     raise Parxer::ValidatorError.new("'condition' method not implemented")

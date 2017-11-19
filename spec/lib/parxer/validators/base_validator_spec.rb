@@ -4,6 +4,8 @@ describe Parxer::BaseValidator do
   let(:context) { double }
   subject { described_class.new }
 
+  it { expect(subject.id).to eq(:base) }
+
   describe "#validator" do
     it { expect { subject.condition }.to raise_error(Parxer::ValidatorError, /not implemented/) }
   end

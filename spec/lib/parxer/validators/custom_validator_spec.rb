@@ -2,11 +2,15 @@ require "spec_helper"
 
 describe Parxer::CustomValidator do
   let(:context) { double(value: value, item: item, another_method: 2) }
+  let(:id) { "custom" }
   let(:condition) { Proc.new { (item + value) == 4 } }
 
   let(:item) { 1 }
   let(:value) { 3 }
-  subject { described_class.new(condition) }
+  subject { described_class.new(id, condition) }
+
+  it { expect(subject.condition).to eq(condition) }
+  it { expect(subject.id).to eq(id.to_sym) }
 
   describe "#validate" do
     let(:execute) { subject.validate(context) }

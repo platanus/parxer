@@ -12,7 +12,7 @@ module Parxer::XlsDsl
 
     validator_class = infer_validator_class(validator_name)
     validator = if validator_class == Parxer::CustomValidator
-                  validator_class.new(block)
+                  validator_class.new(validator_name, block)
                 else
                   validator_class.new
                 end
