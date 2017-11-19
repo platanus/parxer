@@ -36,14 +36,14 @@ describe Parxer::XlsParser, :xls do
   end
 
   let(:parser_attributes) do
-    [
-      double(id: :brand_name, name: "Marca"),
-      double(id: :distributor_name, name: "Sub Distribuidor"),
-      double(id: :address, name: "Direccion"),
-      double(id: :commune, name: "Comuna"),
-      double(id: :region, name: "Region"),
-      double(id: :phone, name: "Telefono")
-    ]
+    pa = Parxer::Attributes.new
+    pa.add_attribute(:brand_name, name: "Marca")
+    pa.add_attribute(:distributor_name, name: "Sub Distribuidor")
+    pa.add_attribute(:address, name: "Direccion")
+    pa.add_attribute(:commune, name: "Comuna")
+    pa.add_attribute(:region, name: "Region")
+    pa.add_attribute(:phone, name: "Telefono")
+    pa
   end
 
   context "with parsed xls" do

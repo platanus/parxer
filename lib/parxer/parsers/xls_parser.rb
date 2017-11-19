@@ -39,7 +39,8 @@ class Parxer::XlsParser
 
     row.each do |column_name, value|
       @value = @item.send("#{column_name}=", value)
-      # TODO: perform validations with item as context
+      attribute = self.class.attributes.find_attribute(column_name)
+      Parxer::ValidationExecutor.execute(attribute, @item, self)
     end
 
     @item

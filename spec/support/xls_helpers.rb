@@ -14,7 +14,7 @@ module XlsHelpers
   def first_parsed_item
     xls_content = [xls_header, xls_row]
     mock_worksheet_content(xls_content)
-    mock_parser_attributes(parser_attributes, 2)
+    mock_parser_attributes(parser_attributes, xls_row.count + 2)
     perform.first
   end
 end
