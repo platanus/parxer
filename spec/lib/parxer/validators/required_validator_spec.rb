@@ -35,11 +35,5 @@ describe Parxer::RequiredValidator do
 
       it { expect(execute).to eq(true) }
     end
-
-    context "when context has no defined value method" do
-      let(:context) { double }
-
-      it { expect { execute }.to raise_error(Parxer::ValidatorError, /not respond to 'value'/) }
-    end
   end
 end

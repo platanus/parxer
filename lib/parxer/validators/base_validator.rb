@@ -14,21 +14,15 @@ class Parxer::BaseValidator
     !!condition
   end
 
-  def value
-    call_context_method(:value)
-  end
-
-  def item
-    call_context_method(:item)
-  end
-
-  def call_context_method(method_name)
-    if !context.respond_to?(method_name)
-      raise Parxer::ValidatorError.new(
-        "given context #{context} does not respond to '#{method_name}'"
-      )
+  def method_missing(method_name, *arguments, &block)
+    if context.respond_to?(method_name)
+      return context.send(method_name, *arguments, &block)
     end
 
-    context.send(method_name)
+    super
+  end
+
+  def respond_to_missing?(method_name, include_private = false)
+    context.respond_to?(method_name) || super
   end
 end
