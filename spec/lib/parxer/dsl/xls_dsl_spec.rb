@@ -47,4 +47,42 @@ RSpec.describe Parxer::XlsDsl do
       end
     end
   end
+
+  context "#validate" do
+    context "with valid definition" do
+      before do
+        class ParserTest < Parxer::XlsParser
+          column :brand_name, name: "Platanus" do
+            validate(:required)
+            validate(:greater_than_two) do
+              # some condition
+            end
+          end
+
+          column :commune, name: "Comuna" do
+            validate(:required)
+          end
+        end
+
+        @attrs = ParserTest.attributes
+        @validators_attr1 = @attrs.first.validators
+        @validators_attr2 = @attrs.last.validators
+      end
+
+      it { expect(@validators_attr1.count).to eq(2) }
+      it { expect(@validators_attr1.first).to be_a(Parxer::RequiredValidator) }
+      it { expect(@validators_attr1.last).to be_a(Parxer::CustomValidator) }
+
+      it { expect(@validators_attr2.count).to eq(1) }
+      it { expect(@validators_attr2.first).to be_a(Parxer::RequiredValidator) }
+    end
+
+    it "raises error trying to run validate outside of attribute context" do
+      expect do
+        class ParserTest < Parxer::XlsParser
+          validate(:required)
+        end
+      end.to raise_error(Parxer::XlsDslError, "validate needs to run in column context")
+    end
+  end
 end
