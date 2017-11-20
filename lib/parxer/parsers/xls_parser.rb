@@ -1,7 +1,7 @@
 class Parxer::XlsParser
   extend Parxer::XlsDsl
 
-  attr_reader :file
+  attr_reader :file, :value, :item
 
   def initialize(file)
     @file = file
@@ -16,12 +16,8 @@ class Parxer::XlsParser
     end
   end
 
-  def item
-    @item
-  end
-
-  def value
-    @value
+  def rows_count
+    worksheet.count
   end
 
   def self.attributes

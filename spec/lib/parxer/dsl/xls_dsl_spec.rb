@@ -54,7 +54,7 @@ RSpec.describe Parxer::XlsDsl do
         class ParserTest < Parxer::XlsParser
           column :brand_name, name: "Platanus" do
             validate(:required)
-            validate(:greater_than_two) do
+            validate(:greater_than, value: 2) do
               # some condition
             end
           end
@@ -72,6 +72,7 @@ RSpec.describe Parxer::XlsDsl do
       it { expect(@validators_attr1.count).to eq(2) }
       it { expect(@validators_attr1.first).to be_a(Parxer::RequiredValidator) }
       it { expect(@validators_attr1.last).to be_a(Parxer::CustomValidator) }
+      it { expect(@validators_attr1.last.config).to eq(value: 2) }
 
       it { expect(@validators_attr2.count).to eq(1) }
       it { expect(@validators_attr2.first).to be_a(Parxer::RequiredValidator) }

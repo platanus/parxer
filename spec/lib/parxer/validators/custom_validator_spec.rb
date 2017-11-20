@@ -4,13 +4,15 @@ describe Parxer::CustomValidator do
   let(:context) { double(value: value, item: item, another_method: 2) }
   let(:id) { "custom" }
   let(:condition) { Proc.new { (item + value) == 4 } }
+  let(:config) { { config_value: 10 } }
 
   let(:item) { 1 }
   let(:value) { 3 }
-  subject { described_class.new(id, condition) }
+  subject { described_class.new(id: id, condition_proc: condition, config: config) }
 
   it { expect(subject.condition).to eq(condition) }
   it { expect(subject.id).to eq(id.to_sym) }
+  it { expect(subject.config).to eq(config) }
 
   describe "#validate" do
     let(:execute) { subject.validate(context) }

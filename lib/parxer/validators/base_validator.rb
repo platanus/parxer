@@ -1,7 +1,8 @@
 class Parxer::BaseValidator
-  attr_reader :context, :id
+  attr_reader :context, :config, :id
 
-  def initialize
+  def initialize(config: {})
+    @config = config
     @id = self.class.name.demodulize.tableize.singularize.chomp("_validator").to_sym
   end
 

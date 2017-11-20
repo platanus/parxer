@@ -7,12 +7,16 @@ module Parxer::XlsDsl
     @current_att = nil
   end
 
-  def validate(validator_name, &block)
+  def validate(validator_name, config = {}, &block)
     raise Parxer::XlsDslError.new("validate needs to run in column context") unless @current_att
 
     validator_class = infer_validator_class(validator_name)
     validator = if validator_class == Parxer::CustomValidator
-                  validator_class.new(validator_name, block)
+                  validator_class.new(
+                    id: validator_name,
+                    condition_proc: block,
+                    config: config
+                  )
                 else
                   validator_class.new
                 end
