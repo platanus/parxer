@@ -1,42 +1,44 @@
 require "spec_helper"
 
 describe Parxer::CustomValidator do
-  let(:context) { double(value: value, item: item, another_method: 2) }
+  let(:value) { 4 }
+  let(:ctx) { double(value: value) }
   let(:id) { "custom" }
-  let(:condition) { Proc.new { (item + value) == 4 } }
-  let(:config) { { config_value: 10 } }
+  let(:condition) { Proc.new { value == 4 } }
+  let(:config) do
+    {
+      id: id,
+      condition_proc: condition,
+      config_value: 10
+    }
+  end
 
-  let(:item) { 1 }
-  let(:value) { 3 }
-  subject { described_class.new(id: id, condition_proc: condition, config: config) }
+  subject { described_class.new(config) }
 
-  it { expect(subject.condition).to eq(condition) }
   it { expect(subject.id).to eq(id.to_sym) }
   it { expect(subject.config).to eq(config) }
 
   describe "#validate" do
-    let(:execute) { subject.validate(context) }
+    let(:execute) { subject.validate(ctx) }
 
     it { expect(execute).to eq(true) }
 
     context "when proc resolves to false based on given item and value" do
-      let(:item) { 2 }
+      let(:value) { 2 }
 
       it { expect(execute).to eq(false) }
+    end
+
+    context "using validator's config" do
+      let(:condition) { Proc.new { config[:config_value] + value == 14 } }
+
+      it { expect(execute).to eq(true) }
     end
 
     context "when condition is not a Proc" do
       let(:condition) { "not a proc" }
 
       it { expect { execute }.to raise_error(Parxer::ValidatorError, /be a Proc/) }
-    end
-
-    context "calling not delegated method from given context" do
-      let(:condition) do
-        Proc.new { (another_method + value) == 5 }
-      end
-
-      it { expect(execute).to eq(true) }
     end
   end
 end

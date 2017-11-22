@@ -2,13 +2,15 @@ require "spec_helper"
 
 describe Parxer::XlsFormatValidator do
   let(:file) { double }
-  let(:context) { double(file: file) }
+  let(:ctx) { double(file: file) }
+
   subject { described_class.new }
 
   it { expect(subject.id).to eq(:xls_format) }
+  it { expect(subject.config).to eq({}) }
 
   describe "#validate" do
-    let(:execute) { subject.validate(context) }
+    let(:execute) { subject.validate(ctx) }
 
     context "with invalid xls file" do
       before do

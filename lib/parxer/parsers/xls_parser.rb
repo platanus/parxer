@@ -36,10 +36,18 @@ class Parxer::XlsParser
     row.each do |column_name, value|
       @value = @item.send("#{column_name}=", value)
       attribute = self.class.attributes.find_attribute(column_name)
-      Parxer::ValidationExecutor.execute(attribute, @item, self)
+      validate_row(attribute)
     end
 
     @item
+  end
+
+  def validate_row(attribute)
+    attribute.validators.each do |validator|
+      @validator_config = validator.config
+      next if validator.validate(self)
+      item.add_error(attribute.id, validator.id)
+    end
   end
 
   def for_each_xls_row
