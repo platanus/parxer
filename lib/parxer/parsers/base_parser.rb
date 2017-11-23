@@ -1,4 +1,6 @@
 class Parxer::BaseParser
+  include Parxer::ParserValidator
+
   attr_reader :file, :value, :attribute, :item
 
   def initialize(file)
@@ -6,6 +8,7 @@ class Parxer::BaseParser
   end
 
   def run
+    validate_file
     item_class = Parxer::ParsedItemBuilder.build(column_names)
     Enumerator.new do |enum|
       for_each_row do |row, idx|
@@ -43,13 +46,6 @@ class Parxer::BaseParser
       @value = item.send("#{column_name}=", value)
       @attribute = self.class.attributes.find_attribute(column_name)
       validate_row
-    end
-  end
-
-  def validate_row
-    attribute.validators.each do |validator|
-      next if validator.validate(self)
-      item.add_error(attribute.id, validator.id)
     end
   end
 

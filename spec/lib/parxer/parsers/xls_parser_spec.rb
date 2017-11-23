@@ -1,9 +1,7 @@
 require "spec_helper"
 
 describe Parxer::XlsParser, :xls do
-  def perform
-    described_class.new(file).run
-  end
+  subject { described_class.new(file) }
 
   let(:file) { "valid-file.xls" }
   let(:brand_name) { double }
@@ -45,6 +43,14 @@ describe Parxer::XlsParser, :xls do
     pa.add_attribute(:phone, name: "Telefono")
     pa
   end
+
+  let(:perform) { subject.run }
+
+  it { expect(subject.base_errors).to eq([]) }
+  it { expect(subject.file).to eq(file) }
+  it { expect(subject.attribute).to be_nil }
+  it { expect(subject.value).to be_nil }
+  it { expect(subject.item).to be_nil }
 
   context "with parsed xls" do
     before { @item = first_parsed_item }
