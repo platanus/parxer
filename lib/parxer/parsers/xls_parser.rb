@@ -1,69 +1,8 @@
-class Parxer::XlsParser
+class Parxer::XlsParser < Parxer::BaseParser
   extend Parxer::XlsDsl
 
-  attr_reader :file, :value, :item
-
-  def initialize(file)
-    @file = file
-  end
-
-  def run
-    item_class = Parxer::ParsedItemBuilder.build(column_names)
-    Enumerator.new do |enum|
-      for_each_xls_row do |row, idx|
-        enum << parse_row(item_class, row, idx)
-      end
-    end
-  end
-
-  def rows_count
-    worksheet.count
-  end
-
-  def self.attributes
-    @attributes ||= Parxer::Attributes.new
-  end
-
-  private
-
-  def column_names
-    self.class.attributes.map(&:id)
-  end
-
-  def parse_row(item_class, row, idx)
-    @item = item_class.new(idx: idx)
-
-    row.each do |column_name, value|
-      @value = @item.send("#{column_name}=", value)
-      attribute = self.class.attributes.find_attribute(column_name)
-      validate_row(attribute)
-    end
-
-    @item
-  end
-
-  def validate_row(attribute)
-    attribute.validators.each do |validator|
-      @validator_config = validator.config
-      next if validator.validate(self)
-      item.add_error(attribute.id, validator.id)
-    end
-  end
-
-  def for_each_xls_row
-    worksheet.each_with_index do |row, idx|
-      next if idx.zero?
-      yield(row_to_hash(row), idx + 1)
-    end
-  end
-
-  def row_to_hash(row)
-    pos = 0
-    self.class.attributes.inject({}) do |memo, column|
-      memo[column.id.to_sym] = extract_row_value(row, pos)
-      pos += 1
-      memo
-    end
+  def raw_rows
+    worksheet
   end
 
   def extract_row_value(row, pos)
