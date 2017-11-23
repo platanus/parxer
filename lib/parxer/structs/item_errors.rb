@@ -3,6 +3,10 @@ class Parxer::ItemErrors < Array
     find_or_create_attr_errors(attribute_name).add_error(error)
   end
 
+  def attribute_errors?(attribute_name)
+    !!find_attr_errors(attribute_name)
+  end
+
   private
 
   def find_or_create_attr_errors(attribute_name)

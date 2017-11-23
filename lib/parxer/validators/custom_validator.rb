@@ -8,6 +8,6 @@ class Parxer::CustomValidator < Parxer::BaseValidator
       raise Parxer::ValidatorError.new("'condition_proc' needs to be a Proc")
     end
 
-    config[:condition_proc].call
+    instance_eval(&config[:condition_proc])
   end
 end

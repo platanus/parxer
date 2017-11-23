@@ -17,6 +17,11 @@ module XlsHelpers
     mock_parser_attributes(parser_attributes, xls_row.count + 2)
     perform.first
   end
+
+  def add_validator(attribute_name, validator)
+    attribute = parser_attributes.find_attribute(attribute_name)
+    attribute.validators << validator
+  end
 end
 
 RSpec.configure do |config|

@@ -12,7 +12,7 @@ module Parxer::ParserValidator
 
     def validate_file
       self.class.base_validators.each do |validator|
-        next if validator.validate(self) || !valid_file?
+        next if !valid_file? || validator.validate(self)
         @base_errors ||= Parxer::AttributeErrors.new(:base)
         @base_errors.add_error(validator.id)
       end
@@ -20,7 +20,7 @@ module Parxer::ParserValidator
 
     def validate_row
       attribute.validators.each do |validator|
-        next if validator.validate(self)
+        next if item.attribute_errors?(attribute.id) || validator.validate(self)
         item.add_error(attribute.id, validator.id)
       end
     end

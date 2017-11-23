@@ -13,6 +13,10 @@ class Parxer::ParsedItem
     errors.add_error(attribute_name, error)
   end
 
+  def attribute_errors?(attribute_name)
+    errors.attribute_errors?(attribute_name)
+  end
+
   def errors
     @errors ||= Parxer::ItemErrors.new
   end
