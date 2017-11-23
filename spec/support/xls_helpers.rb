@@ -1,21 +1,25 @@
 module XlsHelpers
-  def mock_worksheet_content(content, times = 1)
-    expect_any_instance_of(described_class).to(
-      receive(:worksheet).exactly(times).times.and_return(content)
-    )
+  def mock_spreadsheet_open(file, response)
+    allow(Spreadsheet).to receive(:open).with(file).and_return(response)
   end
 
-  def mock_parser_attributes(content, times = 1)
-    expect(described_class).to(
-      receive(:attributes).exactly(times).times.and_return(content)
-    )
+  def mock_worksheet_content(content)
+    allow_any_instance_of(described_class).to receive(:worksheet).and_return(content)
+  end
+
+  def mock_parser_attributes(content)
+    allow(described_class).to receive(:attributes).and_return(content)
+  end
+
+  def mock_xls_parser_run
+    xls_content = [xls_header, xls_row]
+    mock_worksheet_content(xls_content)
+    mock_parser_attributes(parser_attributes)
+    perform
   end
 
   def first_parsed_item
-    xls_content = [xls_header, xls_row]
-    mock_worksheet_content(xls_content)
-    mock_parser_attributes(parser_attributes, xls_row.count + 2)
-    perform.first
+    mock_xls_parser_run.first
   end
 
   def add_validator(attribute_name, validator)

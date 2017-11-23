@@ -20,12 +20,20 @@ class Parxer::BaseParser
     end
   end
 
+  def header
+    @header ||= raw_rows.first
+  end
+
   def rows_count
     raw_rows.count
   end
 
   def self.attributes
     @attributes ||= Parxer::Attributes.new
+  end
+
+  def attributes
+    self.class.attributes
   end
 
   private

@@ -3,6 +3,7 @@ class Parxer::XlsParser < Parxer::BaseParser
 
   add_base_validator(Parxer::FileRequiredValidator.new)
   add_base_validator(Parxer::XlsFormatValidator.new)
+  add_base_validator(Parxer::ColumnsValidator.new)
 
   def raw_rows
     worksheet

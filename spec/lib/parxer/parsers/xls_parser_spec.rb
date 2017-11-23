@@ -48,7 +48,7 @@ describe Parxer::XlsParser, :xls do
   let(:perform) { subject.run }
 
   before do
-    allow(Spreadsheet).to receive(:open).with(file).and_return("valid")
+    mock_spreadsheet_open(file, "valid")
     add_validator(:brand_name, Parxer::RequiredValidator.new)
     add_validator(:commune, Parxer::RequiredValidator.new)
 
@@ -79,15 +79,28 @@ describe Parxer::XlsParser, :xls do
 
   context "with invalid file format" do
     before do
-      allow(Spreadsheet).to receive(:open).with(file).and_return(false)
+      mock_spreadsheet_open(file, false)
       perform
     end
-
-    before { perform }
 
     it { expect(subject.valid_file?).to eq(false) }
     it { expect(subject.base_errors.count).to eq(1) }
     it { expect(subject.base_errors.first).to eq(:xls_format) }
+  end
+
+  context "with invalid header" do
+    let(:xls_header) do
+      [
+        "Sub Distribuidor",
+        "Marca"
+      ]
+    end
+
+    before { mock_xls_parser_run }
+
+    it { expect(subject.valid_file?).to eq(false) }
+    it { expect(subject.base_errors.count).to eq(1) }
+    it { expect(subject.base_errors.first).to eq(:columns) }
   end
 
   context "with valid parsed item" do
