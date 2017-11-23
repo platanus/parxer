@@ -19,4 +19,8 @@ class Parxer::AttributeErrors
   def errors
     @errors ||= []
   end
+
+  def any?
+    errors.any?
+  end
 end

@@ -9,6 +9,7 @@ class Parxer::BaseParser
 
   def run
     validate_file
+    return unless valid_file?
     item_class = Parxer::ParsedItemBuilder.build(column_names)
     Enumerator.new do |enum|
       for_each_row do |row, idx|

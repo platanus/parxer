@@ -3,13 +3,18 @@ module Parxer::ParserValidator
 
   included do
     def base_errors
-      @base_errors ||= Parxer::ItemErrors.new
+      @base_errors.try(:errors) || []
+    end
+
+    def valid_file?
+      base_errors.none?
     end
 
     def validate_file
       self.class.base_validators.each do |validator|
-        next if validator.validate(self)
-        base_errors.add_error(:base, validator.id)
+        next if validator.validate(self) || !valid_file?
+        @base_errors ||= Parxer::AttributeErrors.new(:base)
+        @base_errors.add_error(validator.id)
       end
     end
 
@@ -22,6 +27,10 @@ module Parxer::ParserValidator
   end
 
   class_methods do
+    def add_base_validator(validator)
+      base_validators << validator
+    end
+
     def base_validators
       @base_validators ||= []
     end
