@@ -86,4 +86,23 @@ RSpec.describe Parxer::XlsDsl do
       end.to raise_error(Parxer::XlsDslError, "validate needs to run in column context")
     end
   end
+
+  context "#validate_xls" do
+    context "with valid definition" do
+      before do
+        class ParserTest < Parxer::XlsParser
+          validate_xls(:custom, value: 2) do
+            # some condition
+          end
+        end
+
+        validators = ParserTest.base_validators.last(1)
+        @validator1 = validators.first
+      end
+
+      it { expect(@validator1).to be_a(Parxer::CustomValidator) }
+      it { expect(@validator1.config[:id]).to eq(:custom) }
+      it { expect(@validator1.config[:value]).to eq(2) }
+    end
+  end
 end
