@@ -91,18 +91,24 @@ RSpec.describe Parxer::XlsDsl do
     context "with valid definition" do
       before do
         class ParserTest < Parxer::XlsParser
+          validate_xls(:rows_count, max: 200)
           validate_xls(:custom, value: 2) do
             # some condition
           end
         end
 
-        validators = ParserTest.base_validators.last(1)
+        validators = ParserTest.base_validators.last(2)
         @validator1 = validators.first
+        @validator2 = validators.last
       end
 
-      it { expect(@validator1).to be_a(Parxer::CustomValidator) }
-      it { expect(@validator1.config[:id]).to eq(:custom) }
-      it { expect(@validator1.config[:value]).to eq(2) }
+      it { expect(@validator1).to be_a(Parxer::RowsCountValidator) }
+      it { expect(@validator1.config[:id]).to eq(:rows_count) }
+      it { expect(@validator1.config[:max]).to eq(200) }
+
+      it { expect(@validator2).to be_a(Parxer::CustomValidator) }
+      it { expect(@validator2.config[:id]).to eq(:custom) }
+      it { expect(@validator2.config[:value]).to eq(2) }
     end
   end
 end
