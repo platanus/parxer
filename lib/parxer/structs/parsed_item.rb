@@ -20,4 +20,8 @@ class Parxer::ParsedItem
   def errors
     @errors ||= Parxer::ItemErrors.new
   end
+
+  def errors?
+    errors.any?
+  end
 end

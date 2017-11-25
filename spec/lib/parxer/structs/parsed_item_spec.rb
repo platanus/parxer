@@ -21,4 +21,14 @@ describe Parxer::ParsedItem do
 
     it { expect(item.add_error(attribute_name, error)).to eq(true) }
   end
+
+  describe "#errors?" do
+    it { expect(item.errors?).to eq(false) }
+
+    context "with errors" do
+      before { expect(item).to receive(:errors).and_return([double]) }
+
+      it { expect(item.errors?).to eq(true) }
+    end
+  end
 end
