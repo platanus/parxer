@@ -4,12 +4,12 @@ describe Parxer::FileRequiredValidator do
   let(:file) { double }
   let(:ctx) { double(file: file) }
 
-  subject { described_class.new }
+  subject { described_class.new(context: ctx) }
 
   it { expect(subject.id).to eq(:file_required) }
 
   describe "#validate" do
-    let(:execute) { subject.validate(ctx) }
+    let(:execute) { subject.validate }
 
     it { expect(execute).to eq(true) }
 

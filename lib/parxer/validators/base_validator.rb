@@ -1,7 +1,9 @@
 class Parxer::BaseValidator
-  attr_reader :config, :context
+  attr_writer :context
+  attr_reader :config
 
   def initialize(config = {})
+    @context = config.delete(:context)
     @config = config
   end
 
@@ -9,13 +11,13 @@ class Parxer::BaseValidator
     self.class.name.demodulize.tableize.singularize.chomp("_validator").to_sym
   end
 
-  def condition
-    raise Parxer::ValidatorError.new("'condition' method not implemented")
+  def context
+    raise Parxer::ValidatorError.new("'context' method not implemented") unless @context
+    @context
   end
 
-  def validate(ctx)
-    @context = ctx
-    !!condition
+  def validate
+    raise Parxer::ValidatorError.new("'validate' method not implemented")
   end
 
   def method_missing(method_name, *arguments, &block)

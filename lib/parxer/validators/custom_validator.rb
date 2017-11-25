@@ -3,7 +3,7 @@ class Parxer::CustomValidator < Parxer::BaseValidator
     config[:id].to_sym
   end
 
-  def condition
+  def validate
     if !config[:condition_proc].is_a?(Proc)
       raise Parxer::ValidatorError.new("'condition_proc' needs to be a Proc")
     end

@@ -5,7 +5,8 @@ describe Parxer::CustomValidator do
   let(:ctx) { double(value: value) }
   let(:id) { "custom" }
   let(:condition) { Proc.new { value == 4 } }
-  let(:config) do
+
+  let(:validator_config) do
     {
       id: id,
       condition_proc: condition,
@@ -13,13 +14,15 @@ describe Parxer::CustomValidator do
     }
   end
 
+  let(:config) { validator_config.merge(context: ctx) }
+
   subject { described_class.new(config) }
 
   it { expect(subject.id).to eq(id.to_sym) }
   it { expect(subject.config).to eq(config) }
 
   describe "#validate" do
-    let(:execute) { subject.validate(ctx) }
+    let(:execute) { subject.validate }
 
     it { expect(execute).to eq(true) }
 

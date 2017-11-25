@@ -3,16 +3,17 @@ require "spec_helper"
 describe Parxer::RowsCountValidator do
   let(:max_count) { 10 }
   let(:rows_count) { 5 }
-  let(:config) { { max: max_count } }
+  let(:validator_config) { { max: max_count } }
+  let(:config) { validator_config.merge(context: ctx) }
   let(:ctx) { double(rows_count: rows_count) }
 
   subject { described_class.new(config) }
 
   it { expect(subject.id).to eq(:rows_count) }
-  it { expect(subject.config).to eq(config) }
+  it { expect(subject.config).to eq(validator_config) }
 
   describe "#validate" do
-    let(:execute) { subject.validate(ctx) }
+    let(:execute) { subject.validate }
 
     it { expect(execute).to eq(true) }
 

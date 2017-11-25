@@ -1,15 +1,10 @@
 class Parxer::ColumnsValidator < Parxer::BaseValidator
-  def condition
-    valid = true
-
+  def validate
     context.attributes.each_with_index do |col, idx|
-      if !valid_column?(col, idx)
-        valid = false
-        break
-      end
+      return false unless valid_column?(col, idx)
     end
 
-    valid
+    true
   end
 
   private

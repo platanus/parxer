@@ -11,13 +11,13 @@ describe Parxer::ColumnsValidator do
 
   let(:ctx) { double(attributes: attributes, header: header) }
 
-  subject { described_class.new }
+  subject { described_class.new(context: ctx) }
 
   it { expect(subject.id).to eq(:columns) }
   it { expect(subject.config).to eq({}) }
 
   describe "#validate" do
-    let(:execute) { subject.validate(ctx) }
+    let(:execute) { subject.validate }
 
     it { expect(execute).to eq(true) }
 

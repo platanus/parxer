@@ -4,13 +4,13 @@ describe Parxer::RequiredValidator do
   let(:value) { 1 }
   let(:ctx) { double(value: value) }
 
-  subject { described_class.new }
+  subject { described_class.new(context: ctx) }
 
   it { expect(subject.id).to eq(:required) }
   it { expect(subject.config).to eq({}) }
 
   describe "#validate" do
-    let(:execute) { subject.validate(ctx) }
+    let(:execute) { subject.validate }
 
     it { expect(execute).to eq(true) }
 
