@@ -10,65 +10,65 @@ class Parxer::BaseParser
   def run
     validate_file
     return unless valid_file?
-    item_class = Parxer::ItemBuilder.build(column_names)
+    item_class = Parxer::ItemBuilder.build(attribute_ids)
     Enumerator.new do |enum|
-      for_each_row do |row, idx|
+      for_each_raw_item do |raw_item, idx|
         @item = item_class.new(idx: idx)
-        parse_row(row)
+        parse_item(raw_item)
         enum << item
       end
     end
   end
 
+  def raw_items
+    raise Parxer::ParserError.new("not implemented")
+  end
+
+  def extract_raw_attr_value(value)
+    value
+  end
+
   def header
-    @header ||= raw_rows.first
+    @header ||= raw_items.first
   end
 
-  def rows_count
-    raw_rows.count
+  def items_count
+    raw_items.count
   end
 
-  def self.attributes
-    @attributes ||= Parxer::Attributes.new
+  def attribute_ids
+    attributes.map(&:id)
   end
 
   def attributes
     self.class.attributes
   end
 
+  def self.attributes
+    @attributes ||= Parxer::Attributes.new
+  end
+
   private
 
-  def raw_rows
-    raise Parxer::ParserError.new("not implemented")
-  end
-
-  def extract_row_value(row, pos)
-    row[pos]
-  end
-
-  def column_names
-    self.class.attributes.map(&:id)
-  end
-
-  def parse_row(row)
-    row.each do |column_name, value|
-      @value = item.send("#{column_name}=", value)
-      @attribute = self.class.attributes.find_attribute(column_name)
-      validate_row
+  def parse_item(raw_item)
+    raw_item.each do |attribute_name, value|
+      @value = item.send("#{attribute_name}=", value)
+      @attribute = attributes.find_attribute(attribute_name)
+      validate_item_attribute
     end
   end
 
-  def for_each_row
-    raw_rows.each_with_index do |row, idx|
+  def for_each_raw_item
+    raw_items.each_with_index do |raw_item, idx|
       next if idx.zero?
-      yield(row_to_hash(row), idx + 1)
+      yield(raw_item_to_hash(raw_item), idx + 1)
     end
   end
 
-  def row_to_hash(row)
+  def raw_item_to_hash(raw_item)
     pos = 0
-    self.class.attributes.inject({}) do |memo, column|
-      memo[column.id.to_sym] = extract_row_value(row, pos)
+    attributes.inject({}) do |memo, column|
+      memo[column.id.to_sym] = extract_raw_attr_value(raw_item[pos])
       pos += 1
       memo
     end

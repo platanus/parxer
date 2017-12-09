@@ -1,12 +1,12 @@
 class Parxer::XlsParser < Parxer::BaseParser
   extend Parxer::XlsDsl
 
-  def raw_rows
+  def raw_items
     worksheet
   end
 
-  def extract_row_value(row, pos)
-    row[pos].is_a?(Spreadsheet::Formula) ? row[pos].value : row[pos]
+  def extract_raw_attr_value(value)
+    value.is_a?(Spreadsheet::Formula) ? value.value : value
   end
 
   def worksheet

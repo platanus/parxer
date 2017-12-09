@@ -20,7 +20,7 @@ module Parxer::ParserValidator
       end
     end
 
-    def validate_row
+    def validate_item_attribute
       attribute.validators.each do |validator|
         validator.context = self
         next if item.attribute_error?(attribute.id) || validator.validate
