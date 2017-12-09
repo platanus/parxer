@@ -1,4 +1,8 @@
 module XlsHelpers
+  def parser_attributes
+    @parser_attributes ||= Parxer::Attributes.new
+  end
+
   def mock_spreadsheet_open(file, response)
     allow(Spreadsheet).to receive(:open).with(file).and_return(response)
   end
@@ -25,6 +29,10 @@ module XlsHelpers
   def add_validator(attribute_name, validator)
     attribute = parser_attributes.find_attribute(attribute_name)
     attribute.validators << validator
+  end
+
+  def add_attribute(id, name: nil)
+    parser_attributes.add_attribute(id, name: name)
   end
 
   def add_file_validator(validator)

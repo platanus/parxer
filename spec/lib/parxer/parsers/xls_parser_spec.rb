@@ -34,21 +34,18 @@ describe Parxer::XlsParser, :xls do
     ]
   end
 
-  let(:parser_attributes) do
-    pa = Parxer::Attributes.new
-    pa.add_attribute(:brand_name, name: "Marca")
-    pa.add_attribute(:distributor_name, name: "Sub Distribuidor")
-    pa.add_attribute(:address, name: "Direccion")
-    pa.add_attribute(:commune, name: "Comuna")
-    pa.add_attribute(:region, name: "Region")
-    pa.add_attribute(:phone, name: "Telefono")
-    pa
-  end
-
   let(:perform) { subject.run }
 
   before do
     mock_spreadsheet_open(file, "valid")
+
+    add_attribute(:brand_name, name: "Marca")
+    add_attribute(:distributor_name, name: "Sub Distribuidor")
+    add_attribute(:address, name: "Direccion")
+    add_attribute(:commune, name: "Comuna")
+    add_attribute(:region, name: "Region")
+    add_attribute(:phone, name: "Telefono")
+
     add_validator(:brand_name, Parxer::RequiredValidator.new)
     add_validator(:commune, Parxer::RequiredValidator.new)
     add_file_validator(Parxer::FileRequiredValidator.new)
