@@ -1,12 +1,12 @@
 require "spec_helper"
 
-describe Parxer::RequiredValidator do
+describe Parxer::PresenceValidator do
   let(:value) { 1 }
   let(:ctx) { double(value: value) }
 
   subject { described_class.new(context: ctx) }
 
-  it { expect(subject.id).to eq(:required) }
+  it { expect(subject.id).to eq(:presence) }
   it { expect(subject.config).to eq({}) }
 
   describe "#validate" do

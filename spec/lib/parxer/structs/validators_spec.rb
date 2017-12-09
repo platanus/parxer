@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Parxer::Validators do
-  let(:validator_name) { :required }
+  let(:validator_name) { :presence }
   let(:ctx) { double }
   let(:config) { { some: "config", context: ctx } }
   let(:block) { Proc.new {} }
@@ -16,8 +16,8 @@ describe Parxer::Validators do
     context "adding known validator" do
       before { @validator = add_validator }
 
-      it { expect(@validator).to be_a(Parxer::RequiredValidator) }
-      it { expect(@validator.id).to eq(:required) }
+      it { expect(@validator).to be_a(Parxer::PresenceValidator) }
+      it { expect(@validator.id).to eq(:presence) }
       it { expect(@validator.context).to eq(ctx) }
       it { expect(@validator.config[:some]).to eq("config") }
 

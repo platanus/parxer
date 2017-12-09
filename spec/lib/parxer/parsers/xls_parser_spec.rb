@@ -46,9 +46,9 @@ describe Parxer::XlsParser, :xls do
     add_attribute(:region, name: "Region")
     add_attribute(:phone, name: "Telefono")
 
-    add_validator(:brand_name, Parxer::RequiredValidator.new)
-    add_validator(:commune, Parxer::RequiredValidator.new)
-    add_file_validator(Parxer::FileRequiredValidator.new)
+    add_validator(:brand_name, Parxer::PresenceValidator.new)
+    add_validator(:commune, Parxer::PresenceValidator.new)
+    add_file_validator(Parxer::FilePresenceValidator.new)
     add_file_validator(Parxer::XlsFormatValidator.new)
     add_file_validator(Parxer::ColumnsValidator.new)
 
@@ -73,7 +73,7 @@ describe Parxer::XlsParser, :xls do
     before { perform }
 
     it { expect(subject.valid_file?).to eq(false) }
-    it { expect(subject.file_error).to eq(:file_required) }
+    it { expect(subject.file_error).to eq(:file_presence) }
   end
 
   context "with invalid file format" do
@@ -122,7 +122,7 @@ describe Parxer::XlsParser, :xls do
 
     it { expect(subject.valid_file?).to eq(true) }
     it { expect(@item.errors.count).to eq(1) }
-    it { expect(@item.errors[:brand_name]).to eq(:required) }
+    it { expect(@item.errors[:brand_name]).to eq(:presence) }
   end
 
   context "when item has errors on multiple attributes" do
@@ -133,8 +133,8 @@ describe Parxer::XlsParser, :xls do
 
     it { expect(subject.valid_file?).to eq(true) }
     it { expect(@item.errors.count).to eq(2) }
-    it { expect(@item.errors[:brand_name]).to eq(:required) }
-    it { expect(@item.errors[:commune]).to eq(:required) }
+    it { expect(@item.errors[:brand_name]).to eq(:presence) }
+    it { expect(@item.errors[:commune]).to eq(:presence) }
   end
 
   context "when same attribute has multiple errors" do
@@ -145,7 +145,7 @@ describe Parxer::XlsParser, :xls do
 
     it { expect(subject.valid_file?).to eq(true) }
     it { expect(@item.errors.count).to eq(1) }
-    it { expect(@item.errors[:commune]).to eq(:required) }
+    it { expect(@item.errors[:commune]).to eq(:presence) }
   end
 
   context "when attribute with multiple validators has some valid/invalid" do
