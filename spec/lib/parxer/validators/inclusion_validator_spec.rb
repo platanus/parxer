@@ -17,7 +17,13 @@ describe Parxer::InclusionValidator do
 
     it { expect(execute).to eq(true) }
 
-    context "when string value" do
+    context "with blank value" do
+      let(:value) { "" }
+
+      it { expect(execute).to eq(true) }
+    end
+
+    context "with string value" do
       let(:value) { "3" }
 
       it { expect(execute).to eq(true) }
