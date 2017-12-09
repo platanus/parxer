@@ -14,7 +14,7 @@ module Parxer::XlsDsl
 
   def validate_xls(validator_name, config = {}, &block)
     raise Parxer::XlsDslError.new("validate_xls needs to run out of column context") if @current_att
-    add_base_validator(validator_instance(validator_name, config, &block))
+    add_file_validator(validator_instance(validator_name, config, &block))
   end
 
   def validator_instance(validator_name, config = {}, &block)

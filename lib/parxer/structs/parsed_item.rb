@@ -1,23 +1,15 @@
 class Parxer::ParsedItem
+  extend Forwardable
+
   attr_reader :idx
+
+  def_delegators :errors, :add_error, :attribute_error, :attribute_error?, :errors?
 
   def initialize(idx: nil)
     @idx = idx
   end
 
   def errors
-    @errors ||= {}
-  end
-
-  def errors?
-    errors.any?
-  end
-
-  def add_error(attribute_name, error)
-    errors[attribute_name.to_sym] = error
-  end
-
-  def attribute_errors?(attribute_name)
-    errors[attribute_name.to_sym]
+    @errors ||= Parxer::ItemErrors.new
   end
 end

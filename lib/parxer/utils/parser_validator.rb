@@ -9,10 +9,9 @@ module Parxer::ParserValidator
     end
 
     def validate_file
-      self.class.base_validators.each do |validator|
-        next unless valid_file?
+      self.class.file_validators.each do |validator|
         validator.context = self
-        next if validator.validate
+        next if !valid_file? || validator.validate
         @file_error = validator.id
       end
     end
@@ -20,19 +19,19 @@ module Parxer::ParserValidator
     def validate_row
       attribute.validators.each do |validator|
         validator.context = self
-        next if item.attribute_errors?(attribute.id) || validator.validate
+        next if item.attribute_error?(attribute.id) || validator.validate
         item.add_error(attribute.id, validator.id)
       end
     end
   end
 
   class_methods do
-    def add_base_validator(validator)
-      base_validators << validator
+    def add_file_validator(validator)
+      file_validators << validator
     end
 
-    def base_validators
-      @base_validators ||= []
+    def file_validators
+      @file_validators ||= []
     end
   end
 end

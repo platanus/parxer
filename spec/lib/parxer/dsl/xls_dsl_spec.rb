@@ -97,7 +97,7 @@ RSpec.describe Parxer::XlsDsl do
           end
         end
 
-        validators = ParserTest.base_validators.last(2)
+        validators = ParserTest.file_validators.last(2)
         @validator1 = validators.first
         @validator2 = validators.last
       end

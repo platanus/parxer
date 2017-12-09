@@ -20,7 +20,7 @@ describe Parxer::Attributes do
     end
   end
 
-  describe "#add_add_validator" do
+  describe "#add_validator" do
     let(:validator) { double }
 
     subject { described_class.new }
