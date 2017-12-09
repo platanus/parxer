@@ -50,7 +50,7 @@ describe Parxer::XlsParser, :xls do
     add_validator(:commune, Parxer::PresenceValidator.new)
     add_file_validator(Parxer::FilePresenceValidator.new)
     add_file_validator(Parxer::XlsFormatValidator.new)
-    add_file_validator(Parxer::ColumnsValidator.new)
+    add_file_validator(Parxer::HeaderOrderValidator.new)
 
     custom_validator_config = {
       id: "custom",
@@ -97,7 +97,7 @@ describe Parxer::XlsParser, :xls do
     before { mock_xls_parser_run }
 
     it { expect(subject.valid_file?).to eq(false) }
-    it { expect(subject.file_error).to eq(:columns) }
+    it { expect(subject.file_error).to eq(:header_order) }
   end
 
   context "with valid parsed item" do

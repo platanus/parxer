@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::ColumnsValidator do
+describe Parxer::HeaderOrderValidator do
   let(:header) { ["A", "B"] }
   let(:attributes) do
     [
@@ -13,7 +13,7 @@ describe Parxer::ColumnsValidator do
 
   subject { described_class.new(context: ctx) }
 
-  it { expect(subject.id).to eq(:columns) }
+  it { expect(subject.id).to eq(:header_order) }
   it { expect(subject.config).to eq({}) }
 
   describe "#validate" do

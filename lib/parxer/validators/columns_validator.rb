@@ -1,7 +1,7 @@
-class Parxer::ColumnsValidator < Parxer::BaseValidator
+class Parxer::HeaderOrderValidator < Parxer::BaseValidator
   def validate
-    context.attributes.each_with_index do |col, idx|
-      return false unless valid_column?(col, idx)
+    context.attributes.each_with_index do |attribute, idx|
+      return false unless valid_header?(attribute, idx)
     end
 
     true
@@ -9,7 +9,7 @@ class Parxer::ColumnsValidator < Parxer::BaseValidator
 
   private
 
-  def valid_column?(col, col_idx)
-    !!context.header[col_idx] && context.header[col_idx] == col.name
+  def valid_header?(attribute, attribute_idx)
+    !!context.header[attribute_idx] && context.header[attribute_idx] == attribute.name
   end
 end
