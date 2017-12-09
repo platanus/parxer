@@ -27,7 +27,7 @@ class Parxer::Validators < Array
   end
 
   def infer_validator_class(validator_name)
-    "Parxer::#{validator_name.to_s.classify}Validator".constantize
+    "Parxer::#{validator_name.to_s.camelize}Validator".constantize
   rescue NameError
     Parxer::CustomValidator
   end
