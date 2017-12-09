@@ -1,4 +1,4 @@
-class Parxer::ParsedItem
+class Parxer::Item
   extend Forwardable
 
   attr_reader :idx

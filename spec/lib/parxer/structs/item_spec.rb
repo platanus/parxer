@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::ParsedItem do
+describe Parxer::Item do
   let(:params) { { idx: 1 } }
   let(:item) { described_class.new(params) }
 

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::ParsedItemBuilder do
+describe Parxer::ItemBuilder do
   describe "#initialize" do
     let(:attributes) { %i{first_name last_name} }
     subject { described_class.build(attributes).new }
@@ -11,13 +11,13 @@ describe Parxer::ParsedItemBuilder do
     context "with already defined attributes" do
       let(:attributes) { %i{to_s} }
 
-      it { expect { subject }.to raise_error(Parxer::ParsedItemError, /'to_s' already defined/) }
+      it { expect { subject }.to raise_error(Parxer::ItemError, /'to_s' already defined/) }
     end
 
     context "with invalid attribute names" do
       let(:attributes) { ["Invalid name"] }
 
-      it { expect { subject }.to raise_error(Parxer::ParsedItemError, /invalid 'Invalid name'/) }
+      it { expect { subject }.to raise_error(Parxer::ItemError, /invalid 'Invalid name'/) }
     end
   end
 end

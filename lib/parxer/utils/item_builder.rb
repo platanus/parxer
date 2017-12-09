@@ -1,14 +1,14 @@
-module Parxer::ParsedItemBuilder
+module Parxer::ItemBuilder
   def self.build(attributes)
-    Class.new(Parxer::ParsedItem) do
+    Class.new(Parxer::Item) do
       def self.define_attribute_accessor(attribute)
         if method_defined?(attribute)
-          raise Parxer::ParsedItemError.new("attribute '#{attribute}' already defined")
+          raise Parxer::ItemError.new("attribute '#{attribute}' already defined")
         end
 
         attr_accessor(attribute)
       rescue NameError
-        raise Parxer::ParsedItemError.new("invalid '#{attribute}' method name")
+        raise Parxer::ItemError.new("invalid '#{attribute}' method name")
       end
 
       attributes.each do |attribute|

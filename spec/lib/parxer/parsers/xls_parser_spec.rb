@@ -104,7 +104,7 @@ describe Parxer::XlsParser, :xls do
     before { @item = first_parsed_item }
 
     it { expect(subject.valid_file?).to eq(true) }
-    it { expect(@item).to be_a(Parxer::ParsedItem) }
+    it { expect(@item).to be_a(Parxer::Item) }
     it { expect(@item.errors.blank?).to eq(true) }
     it { expect(@item.idx).to eq(2) }
     it { expect(@item.brand_name).to eq(brand_name) }
