@@ -26,6 +26,10 @@ module XlsHelpers
     attribute = parser_attributes.find_attribute(attribute_name)
     attribute.validators << validator
   end
+
+  def add_file_validator(validator)
+    subject.file_validators << validator
+  end
 end
 
 RSpec.configure do |config|

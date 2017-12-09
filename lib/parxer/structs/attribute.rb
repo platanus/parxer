@@ -1,10 +1,13 @@
 class Parxer::Attribute
-  attr_reader :id, :name
-  attr_accessor :validators
+  extend Forwardable
+
+  attr_reader :id, :name, :validators
+
+  def_delegators :validators, :add_validator
 
   def initialize(id, name: nil)
     @id = id.to_sym
     @name = name
-    @validators = []
+    @validators = Parxer::Validators.new
   end
 end

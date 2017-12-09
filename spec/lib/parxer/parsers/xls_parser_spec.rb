@@ -51,6 +51,9 @@ describe Parxer::XlsParser, :xls do
     mock_spreadsheet_open(file, "valid")
     add_validator(:brand_name, Parxer::RequiredValidator.new)
     add_validator(:commune, Parxer::RequiredValidator.new)
+    add_file_validator(Parxer::FileRequiredValidator.new)
+    add_file_validator(Parxer::XlsFormatValidator.new)
+    add_file_validator(Parxer::ColumnsValidator.new)
 
     custom_validator_config = {
       id: "custom",

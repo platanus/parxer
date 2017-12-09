@@ -4,12 +4,16 @@ module Parxer::ParserValidator
   included do
     attr_reader :file_error
 
+    def file_validators
+      self.class.file_validators
+    end
+
     def valid_file?
       !file_error
     end
 
     def validate_file
-      self.class.file_validators.each do |validator|
+      file_validators.each do |validator|
         validator.context = self
         next if !valid_file? || validator.validate
         @file_error = validator.id
@@ -26,12 +30,12 @@ module Parxer::ParserValidator
   end
 
   class_methods do
-    def add_file_validator(validator)
-      file_validators << validator
+    def file_validators
+      @file_validators ||= Parxer::Validators.new
     end
 
-    def file_validators
-      @file_validators ||= []
+    def add_validator(validator_name, config, &block)
+      file_validators.add_validator(validator_name, config, &block)
     end
   end
 end
