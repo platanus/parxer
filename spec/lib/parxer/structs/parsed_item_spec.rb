@@ -6,27 +6,34 @@ describe Parxer::ParsedItem do
 
   describe "#initialize" do
     it { expect(item.idx).to eq(1) }
-    it { expect(item.errors).to be_a(Parxer::ItemErrors) }
+    it { expect(item.errors).to be_a(Hash) }
   end
 
   describe "#add_error" do
-    let(:errors) { double(add_error: true) }
-    let(:attribute_name) { double }
-    let(:error) { double }
+    context "adding error to attribute" do
+      before { item.add_error("attr1", "error1") }
 
-    before do
-      expect(item).to receive(:errors).and_return(errors)
-      expect(errors).to receive(:add_error).with(attribute_name, error).and_return(true)
+      it { expect(item.errors).to eq(attr1: "error1") }
+
+      context "adding a second error to the same attribute" do
+        before { item.add_error("attr1", "error2") }
+
+        it { expect(item.errors).to eq(attr1: "error2") }
+
+        context "adding error to another attribute" do
+          before { item.add_error("attr2", "error3") }
+
+          it { expect(item.errors).to eq(attr1: "error2", attr2: "error3") }
+        end
+      end
     end
-
-    it { expect(item.add_error(attribute_name, error)).to eq(true) }
   end
 
   describe "#errors?" do
     it { expect(item.errors?).to eq(false) }
 
     context "with errors" do
-      before { expect(item).to receive(:errors).and_return([double]) }
+      before { expect(item).to receive(:errors).and_return(attribute: "error") }
 
       it { expect(item.errors?).to eq(true) }
     end

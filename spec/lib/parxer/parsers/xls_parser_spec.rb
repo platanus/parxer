@@ -73,8 +73,7 @@ describe Parxer::XlsParser, :xls do
     before { perform }
 
     it { expect(subject.valid_file?).to eq(false) }
-    it { expect(subject.base_errors.count).to eq(1) }
-    it { expect(subject.base_errors.first).to eq(:file_required) }
+    it { expect(subject.file_error).to eq(:file_required) }
   end
 
   context "with invalid file format" do
@@ -84,8 +83,7 @@ describe Parxer::XlsParser, :xls do
     end
 
     it { expect(subject.valid_file?).to eq(false) }
-    it { expect(subject.base_errors.count).to eq(1) }
-    it { expect(subject.base_errors.first).to eq(:xls_format) }
+    it { expect(subject.file_error).to eq(:xls_format) }
   end
 
   context "with invalid header" do
@@ -99,8 +97,7 @@ describe Parxer::XlsParser, :xls do
     before { mock_xls_parser_run }
 
     it { expect(subject.valid_file?).to eq(false) }
-    it { expect(subject.base_errors.count).to eq(1) }
-    it { expect(subject.base_errors.first).to eq(:columns) }
+    it { expect(subject.file_error).to eq(:columns) }
   end
 
   context "with valid parsed item" do
@@ -125,8 +122,7 @@ describe Parxer::XlsParser, :xls do
 
     it { expect(subject.valid_file?).to eq(true) }
     it { expect(@item.errors.count).to eq(1) }
-    it { expect(@item.errors.first.attribute_name).to eq(:brand_name) }
-    it { expect(@item.errors.first.errors).to contain_exactly(:required) }
+    it { expect(@item.errors[:brand_name]).to eq(:required) }
   end
 
   context "when item has errors on multiple attributes" do
@@ -137,10 +133,8 @@ describe Parxer::XlsParser, :xls do
 
     it { expect(subject.valid_file?).to eq(true) }
     it { expect(@item.errors.count).to eq(2) }
-    it { expect(@item.errors.first.attribute_name).to eq(:brand_name) }
-    it { expect(@item.errors.first.errors).to contain_exactly(:required) }
-    it { expect(@item.errors.last.attribute_name).to eq(:commune) }
-    it { expect(@item.errors.last.errors).to contain_exactly(:required) }
+    it { expect(@item.errors[:brand_name]).to eq(:required) }
+    it { expect(@item.errors[:commune]).to eq(:required) }
   end
 
   context "when same attribute has multiple errors" do
@@ -151,8 +145,7 @@ describe Parxer::XlsParser, :xls do
 
     it { expect(subject.valid_file?).to eq(true) }
     it { expect(@item.errors.count).to eq(1) }
-    it { expect(@item.errors.first.attribute_name).to eq(:commune) }
-    it { expect(@item.errors.first.errors).to contain_exactly(:required) }
+    it { expect(@item.errors[:commune]).to eq(:required) }
   end
 
   context "when attribute with multiple validators has some valid/invalid" do
@@ -162,7 +155,6 @@ describe Parxer::XlsParser, :xls do
 
     it { expect(subject.valid_file?).to eq(true) }
     it { expect(@item.errors.count).to eq(1) }
-    it { expect(@item.errors.first.attribute_name).to eq(:commune) }
-    it { expect(@item.errors.first.errors).to contain_exactly(:custom) }
+    it { expect(@item.errors[:commune]).to eq(:custom) }
   end
 end

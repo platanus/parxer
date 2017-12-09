@@ -2,12 +2,10 @@ module Parxer::ParserValidator
   extend ActiveSupport::Concern
 
   included do
-    def base_errors
-      @base_errors.try(:errors) || []
-    end
+    attr_reader :file_error
 
     def valid_file?
-      base_errors.none?
+      !file_error
     end
 
     def validate_file
@@ -15,8 +13,7 @@ module Parxer::ParserValidator
         next unless valid_file?
         validator.context = self
         next if validator.validate
-        @base_errors ||= Parxer::AttributeErrors.new(:base)
-        @base_errors.add_error(validator.id)
+        @file_error = validator.id
       end
     end
 
