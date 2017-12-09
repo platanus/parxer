@@ -39,7 +39,7 @@ RSpec.describe Parxer::XlsDsl do
       it "raises error trying to nest columns" do
         expect do
           class ParserTest < Parxer::XlsParser
-            column :brand_name, name: "Platanus" do
+            column :company, name: "Platanus" do
               column "commune", name: "Vitacura"
             end
           end
