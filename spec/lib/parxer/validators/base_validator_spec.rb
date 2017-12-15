@@ -18,7 +18,7 @@ describe Parxer::BaseValidator do
     context "with no context" do
       let(:ctx) { nil }
 
-      it { expect { subject.context }.to raise_error(Parxer::ValidatorError, /not implemented/) }
+      it { expect { subject.context }.to raise_error(Parxer::ContextError, /not implemented/) }
     end
   end
 end
