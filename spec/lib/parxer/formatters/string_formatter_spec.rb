@@ -8,13 +8,13 @@ describe Parxer::StringFormatter do
 
   it { expect(subject.config).to eq({}) }
 
-  describe "#format_value" do
-    it { expect(subject.format_value).to eq("1") }
+  describe "#apply" do
+    it { expect(subject.apply).to eq("1") }
 
     context "with different format" do
       let(:value) { 1 }
 
-      it { expect(subject.format_value).to eq("1") }
+      it { expect(subject.apply).to eq("1") }
     end
   end
 end

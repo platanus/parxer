@@ -1,6 +1,5 @@
-class Parxer::NumberFormatter < Parxer::BaseValidator
-  def format_value
-    v = context.value.to_s
+class Parxer::NumberFormatter < Parxer::BaseFormatter
+  def format_value(v)
     v = integer? ? v.to_i : v.to_f
     v = v.round(round) if round?
     v

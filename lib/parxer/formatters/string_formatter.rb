@@ -1,5 +1,5 @@
-class Parxer::StringFormatter < Parxer::BaseValidator
-  def format_value
-    context.value.to_s
+class Parxer::StringFormatter < Parxer::BaseFormatter
+  def format_value(v)
+    v
   end
 end

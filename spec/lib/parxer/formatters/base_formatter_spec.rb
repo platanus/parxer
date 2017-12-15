@@ -1,14 +1,35 @@
 require "spec_helper"
 
 describe Parxer::BaseFormatter do
-  let(:ctx) { double }
+  let(:value) { 1 }
+  let(:ctx) { double(value: value) }
+  let(:formatter_config) { {} }
+  let(:config) { formatter_config.merge(context: ctx) }
 
-  subject { described_class.new(context: ctx) }
+  subject { described_class.new(config) }
 
-  it { expect(subject.config).to eq({}) }
+  it { expect(subject.config).to eq(formatter_config) }
 
-  describe "#format_value" do
-    it { expect { subject.format_value }.to raise_error(Parxer::FormatterError, /not implemented/) }
+  describe "#apply" do
+    it { expect { subject.apply }.to raise_error(Parxer::FormatterError, /not implemented/) }
+
+    context "with no value" do
+      let(:value) { nil }
+
+      it { expect(subject.apply).to be_nil }
+
+      context "and custom default value" do
+        let(:formatter_config) { { default: "default" } }
+
+        it { expect(subject.apply).to eq("default") }
+      end
+    end
+
+    context "with empty string value" do
+      let(:value) { "" }
+
+      it { expect(subject.apply).to be_nil }
+    end
   end
 
   describe "#context" do
