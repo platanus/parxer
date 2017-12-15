@@ -22,7 +22,7 @@ describe Parxer::Validators do
       it { expect(@validator.config[:some]).to eq("config") }
 
       context "trying to add the same validator again" do
-        it { expect { add_validator }.to raise_error(Parxer::ValidatorsError, /existent id/) }
+        it { expect { add_validator }.to raise_error(Parxer::ValidatorError, /existent id/) }
       end
     end
 

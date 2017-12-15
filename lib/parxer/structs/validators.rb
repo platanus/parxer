@@ -3,7 +3,7 @@ class Parxer::Validators < Array
     validator = validator_instance(validator_name, config, &block)
 
     if find_validator(validator.id)
-      raise Parxer::ValidatorsError.new("trying to add validator with existent id")
+      raise Parxer::ValidatorError.new("trying to add validator with existent id")
     end
 
     self << validator
