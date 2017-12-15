@@ -17,13 +17,10 @@ class Parxer::Validators < Array
   end
 
   def validator_instance(validator_name, config = {}, &block)
-    validator_config = {
-      id: validator_name,
-      condition_proc: block,
-      config: config
-    }.merge!(config)
-
-    infer_validator_class(validator_name).new(validator_config)
+    config[:id] = validator_name
+    validator_class = infer_validator_class(validator_name)
+    config[:condition_proc] = block if validator_class == Parxer::CustomValidator
+    validator_class.new(config)
   end
 
   def infer_validator_class(validator_name)
