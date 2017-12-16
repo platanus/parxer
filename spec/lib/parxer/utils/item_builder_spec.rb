@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Parxer::ItemBuilder do
-  describe "#initialize" do
+  describe "#build" do
     let(:attributes) { %i{first_name last_name} }
     subject { described_class.build(attributes).new }
 
