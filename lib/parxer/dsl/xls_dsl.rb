@@ -5,7 +5,8 @@ module Parxer::XlsDsl
     {
       validate_xls: [],
       column: [],
-      validate: [:column]
+      validate: [:column],
+      format_with: [:column]
     }
   end
 
@@ -19,14 +20,18 @@ module Parxer::XlsDsl
   end
 
   def validate(validator_name, config = {}, &block)
-    in_context do
-      @current_att.add_validator(validator_name, config, &block)
-    end
+    in_context { @current_att.add_validator(validator_name, config, &block) }
   end
 
   def validate_xls(validator_name, config = {}, &block)
+    in_context { add_validator(validator_name, config, &block) }
+  end
+
+  def format_with(*params, &block)
     in_context do
-      add_validator(validator_name, config, &block)
+      formatter_name = !params.first.is_a?(Hash) ? params.first : :custom
+      config = (params.first.is_a?(Hash) ? params.first : params.second) || {}
+      @current_att.add_formatter(formatter_name, config, &block)
     end
   end
 end
