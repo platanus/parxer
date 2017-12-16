@@ -21,11 +21,16 @@ module Parxer::ParserValidator
     end
 
     def validate_item_attribute
+      valid = true
+
       attribute.validators.each do |validator|
         validator.context = self
         next if item.attribute_error?(attribute.id) || validator.validate
         item.add_error(attribute.id, validator.id)
+        valid = false
       end
+
+      valid
     end
   end
 

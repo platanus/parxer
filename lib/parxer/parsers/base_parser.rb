@@ -55,8 +55,7 @@ class Parxer::BaseParser
     raw_item.each do |attribute_name, value|
       @value = item.send("#{attribute_name}=", value)
       @attribute = attributes.find_attribute(attribute_name)
-      validate_item_attribute
-      format_attribute_value
+      format_attribute_value if validate_item_attribute
     end
   end
 

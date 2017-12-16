@@ -128,6 +128,7 @@ describe Parxer::XlsParser, :xls do
     before { @item = first_parsed_item }
 
     it { expect(subject.valid_file?).to eq(true) }
+    it { expect(@item.brand_name).to eq("") }
     it { expect(@item.errors.count).to eq(1) }
     it { expect(@item.errors[:brand_name]).to eq(:presence) }
   end
