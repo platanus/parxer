@@ -1,5 +1,6 @@
 class Parxer::BaseParser
   include Parxer::ParserValidator
+  include Parxer::ParserFormatter
 
   attr_reader :file, :value, :attribute, :item
 
@@ -55,6 +56,7 @@ class Parxer::BaseParser
       @value = item.send("#{attribute_name}=", value)
       @attribute = attributes.find_attribute(attribute_name)
       validate_item_attribute
+      format_attribute_value
     end
   end
 

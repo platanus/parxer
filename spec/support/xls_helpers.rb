@@ -31,6 +31,11 @@ module XlsHelpers
     attribute.validators << validator
   end
 
+  def add_formatter(attribute_name, formatter)
+    attribute = parser_attributes.find_attribute(attribute_name)
+    attribute.instance_variable_set("@formatter", formatter)
+  end
+
   def add_attribute(id, name: nil)
     parser_attributes.add_attribute(id, name: name)
   end

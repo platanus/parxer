@@ -4,12 +4,12 @@ describe Parxer::XlsParser, :xls do
   subject { described_class.new(file) }
 
   let(:file) { "valid-file.xls" }
-  let(:brand_name) { double }
+  let(:brand_name) { "Platanus" }
   let(:distributor_name) { double }
   let(:address) { double }
   let(:commune) { double }
   let(:region) { double }
-  let(:phone) { double }
+  let(:phone) { "3097219-8" }
   let(:custom_validator_value) { commune }
 
   let(:xls_header) do
@@ -59,6 +59,13 @@ describe Parxer::XlsParser, :xls do
     }
 
     add_validator(:commune, Parxer::CustomValidator.new(custom_validator_config))
+
+    custom_formatter_config = {
+      formatter_proc: Proc.new { "Hello #{value}!" }
+    }
+
+    add_formatter(:brand_name, Parxer::CustomFormatter.new(custom_formatter_config))
+    add_formatter(:phone, Parxer::NumberFormatter.new(integer: true))
   end
 
   it { expect(subject.valid_file?).to eq(true) }
@@ -107,12 +114,12 @@ describe Parxer::XlsParser, :xls do
     it { expect(@item).to be_a(Parxer::Item) }
     it { expect(@item.errors.blank?).to eq(true) }
     it { expect(@item.idx).to eq(2) }
-    it { expect(@item.brand_name).to eq(brand_name) }
+    it { expect(@item.brand_name).to eq("Hello Platanus!") }
     it { expect(@item.distributor_name).to eq(distributor_name) }
     it { expect(@item.address).to eq(address) }
     it { expect(@item.commune).to eq(commune) }
     it { expect(@item.region).to eq(region) }
-    it { expect(@item.phone).to eq(phone) }
+    it { expect(@item.phone).to eq(3097219) }
   end
 
   context "when column has errors" do
