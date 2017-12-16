@@ -23,7 +23,7 @@ RSpec.describe Parxer::XlsDsl do
     context "adding columns" do
       before do
         class ParserTest < Parxer::XlsParser
-          column :brand_name, name: "Brand"
+          column :brand_name, name: "Brand", format: "string"
           column "commune", name: "Commune"
         end
 
@@ -33,8 +33,10 @@ RSpec.describe Parxer::XlsDsl do
       it { expect(@attrs.count).to eq(2) }
       it { expect(@attrs.first.id).to eq(:brand_name) }
       it { expect(@attrs.first.name).to eq("Brand") }
+      it { expect(@attrs.first.formatter).to be_a(Parxer::StringFormatter) }
       it { expect(@attrs.last.id).to eq(:commune) }
       it { expect(@attrs.last.name).to eq("Commune") }
+      it { expect(@attrs.last.formatter).to be_nil }
 
       it "raises error trying to nest columns" do
         expect do

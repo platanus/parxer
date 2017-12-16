@@ -10,9 +10,11 @@ module Parxer::XlsDsl
     }
   end
 
-  def column(id, name: nil, &block)
+  def column(id, config, &block)
     in_context do
-      @current_att = attributes.add_attribute(id, name: name)
+      formatter_name = config.delete(:format)
+      @current_att = attributes.add_attribute(id, name: config.delete(:name))
+      format_with(formatter_name) if formatter_name
       block&.call
     end
   ensure
