@@ -43,7 +43,7 @@ RSpec.describe Parxer::XlsDsl do
               column "commune", name: "Vitacura"
             end
           end
-        end.to raise_error(Parxer::XlsDslError, "nest column is not allowed")
+        end.to raise_error(Parxer::DslError, "'column' can't run inside 'column' block")
       end
     end
   end
@@ -83,7 +83,7 @@ RSpec.describe Parxer::XlsDsl do
         class ParserTest < Parxer::XlsParser
           validate(:presence)
         end
-      end.to raise_error(Parxer::XlsDslError, "validate needs to run in column context")
+      end.to raise_error(Parxer::DslError, "'validate' needs to run inside 'column' block")
     end
   end
 

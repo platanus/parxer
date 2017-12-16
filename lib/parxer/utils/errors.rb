@@ -6,3 +6,4 @@ class Parxer::XlsDslError < Parxer::Error; end
 class Parxer::AttributesError < Parxer::Error; end
 class Parxer::FormatterError < Parxer::Error; end
 class Parxer::ContextError < Parxer::Error; end
+class Parxer::DslError < Parxer::Error; end
