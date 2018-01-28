@@ -1,4 +1,5 @@
 class Parxer::BaseParser
+  include Parxer::ParserInheritedResource
   include Parxer::ParserValidator
   include Parxer::ParserFormatter
 
@@ -42,7 +43,7 @@ class Parxer::BaseParser
   end
 
   def attributes
-    self.class.attributes
+    @attributes ||= inherited_resource(:attributes, Parxer::Attributes)
   end
 
   def self.attributes

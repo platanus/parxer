@@ -5,7 +5,7 @@ module Parxer::ParserValidator
     attr_reader :file_error
 
     def file_validators
-      self.class.file_validators
+      @file_validators ||= inherited_resource(:file_validators, Parxer::Validators)
     end
 
     def valid_file?
