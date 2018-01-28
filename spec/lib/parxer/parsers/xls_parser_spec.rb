@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Parxer::XlsParser, :xls do
-  subject { described_class.new(file) }
+  subject { described_class.new }
 
   let(:file) { "valid-file.xls" }
   let(:brand_name) { "Platanus" }
@@ -34,7 +34,7 @@ describe Parxer::XlsParser, :xls do
     ]
   end
 
-  let(:perform) { subject.run }
+  let(:perform) { subject.run(file) }
 
   before do
     mock_spreadsheet_open(file, "valid")
@@ -69,7 +69,7 @@ describe Parxer::XlsParser, :xls do
   end
 
   it { expect(subject.valid_file?).to eq(true) }
-  it { expect(subject.file).to eq(file) }
+  it { expect(subject.file).to be_nil }
   it { expect(subject.attribute).to be_nil }
   it { expect(subject.value).to be_nil }
   it { expect(subject.item).to be_nil }

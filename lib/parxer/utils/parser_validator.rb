@@ -18,6 +18,8 @@ module Parxer::ParserValidator
         next if !valid_file? || validator.validate
         @file_error = validator.id
       end
+
+      valid_file?
     end
 
     def validate_item_attribute

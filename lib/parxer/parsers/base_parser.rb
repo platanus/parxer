@@ -5,13 +5,9 @@ class Parxer::BaseParser
 
   attr_reader :file, :value, :attribute, :item
 
-  def initialize(file)
+  def run(file)
     @file = file
-  end
-
-  def run
-    validate_file
-    return unless valid_file?
+    return unless validate_file
     item_class = Parxer::ItemBuilder.build(attribute_ids)
     Enumerator.new do |enum|
       for_each_raw_item do |raw_item, idx|
