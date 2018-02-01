@@ -7,3 +7,4 @@ class Parxer::AttributesError < Parxer::Error; end
 class Parxer::FormatterError < Parxer::Error; end
 class Parxer::ContextError < Parxer::Error; end
 class Parxer::DslError < Parxer::Error; end
+class Parxer::CallbacksError < Parxer::Error; end
