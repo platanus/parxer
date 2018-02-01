@@ -1,18 +1,12 @@
 require "spec_helper"
 
 RSpec.describe Parxer::XlsDsl do
-  before do
-    begin
-      Object.send(:remove_const, :ParserTest)
-    rescue NameError
-      # do nothing
-    end
-  end
-
   describe "#column" do
     context "without columns" do
       before do
-        class ParserTest < Parxer::XlsParser
+        class ParserTest
+          include Parxer::XlsParser
+
           # do nothing
         end
       end
@@ -22,7 +16,9 @@ RSpec.describe Parxer::XlsDsl do
 
     context "adding columns" do
       before do
-        class ParserTest < Parxer::XlsParser
+        class ParserTest
+          include Parxer::XlsParser
+
           column :brand_name, name: "Brand", format: "string"
           column "commune", name: "Commune"
         end
@@ -40,7 +36,9 @@ RSpec.describe Parxer::XlsDsl do
 
       it "raises error trying to nest columns" do
         expect do
-          class ParserTest < Parxer::XlsParser
+          class ParserTest
+            include Parxer::XlsParser
+
             column :company, name: "Brand" do
               column "commune", name: "Commune"
             end
@@ -53,7 +51,9 @@ RSpec.describe Parxer::XlsDsl do
   context "#validate" do
     context "with valid definition" do
       before do
-        class ParserTest < Parxer::XlsParser
+        class ParserTest
+          include Parxer::XlsParser
+
           column :brand_name, name: "Brand" do
             validate(:presence)
             validate(:greater_than, value: 2) do
@@ -82,7 +82,9 @@ RSpec.describe Parxer::XlsDsl do
 
     it "raises error trying to run validate outside of attribute context" do
       expect do
-        class ParserTest < Parxer::XlsParser
+        class ParserTest
+          include Parxer::XlsParser
+
           validate(:presence)
         end
       end.to raise_error(Parxer::DslError, "'validate' needs to run inside 'column' block")
@@ -92,7 +94,9 @@ RSpec.describe Parxer::XlsDsl do
   context "#format_with" do
     context "with valid definition" do
       before do
-        class ParserTest < Parxer::XlsParser
+        class ParserTest
+          include Parxer::XlsParser
+
           column :amount, name: "Amount" do
             format_with(:number, round: 2)
           end
@@ -128,7 +132,9 @@ RSpec.describe Parxer::XlsDsl do
 
     it "raises error trying to run format_with outside of attribute context" do
       expect do
-        class ParserTest < Parxer::XlsParser
+        class ParserTest
+          include Parxer::XlsParser
+
           format_with(:number)
         end
       end.to raise_error(Parxer::DslError, "'format_with' needs to run inside 'column' block")
@@ -138,7 +144,9 @@ RSpec.describe Parxer::XlsDsl do
   context "#validate_xls" do
     context "with valid definition" do
       before do
-        class ParserTest < Parxer::XlsParser
+        class ParserTest
+          include Parxer::XlsParser
+
           validate_xls(:items_count, max: 200)
           validate_xls(:custom, value: 2) do
             # some condition

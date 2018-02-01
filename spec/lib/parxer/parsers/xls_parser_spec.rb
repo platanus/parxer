@@ -1,8 +1,6 @@
 require "spec_helper"
 
 describe Parxer::XlsParser, :xls do
-  subject { described_class.new }
-
   let(:file) { "valid-file.xls" }
   let(:brand_name) { "Platanus" }
   let(:distributor_name) { double }
@@ -35,6 +33,14 @@ describe Parxer::XlsParser, :xls do
   end
 
   let(:perform) { subject.run(file) }
+
+  let(:xls_parser_class) do
+    class ParserTest
+      include Parxer::XlsParser
+    end
+  end
+
+  subject { xls_parser_class.new }
 
   before do
     mock_spreadsheet_open(file, "valid")

@@ -1,4 +1,4 @@
-module XlsHelpers
+module XlsParserTestHelpers
   def parser_attributes
     @parser_attributes ||= Parxer::Attributes.new
   end
@@ -8,11 +8,11 @@ module XlsHelpers
   end
 
   def mock_worksheet_content(content)
-    allow_any_instance_of(described_class).to receive(:worksheet).and_return(content)
+    allow_any_instance_of(xls_parser_class).to receive(:worksheet).and_return(content)
   end
 
   def mock_parser_attributes(content)
-    allow(described_class).to receive(:attributes).and_return(content)
+    allow(xls_parser_class).to receive(:attributes).and_return(content)
   end
 
   def mock_xls_parser_run
@@ -46,5 +46,5 @@ module XlsHelpers
 end
 
 RSpec.configure do |config|
-  config.include XlsHelpers, :xls
+  config.include XlsParserTestHelpers, :xls
 end
