@@ -29,4 +29,21 @@ module Parxer::Dsl
   def current_context
     @current_context ||= []
   end
+
+  def add_parser_attribute(id, config)
+    formatter_name = config.delete(:format)
+    @current_attr = attributes.add_attribute(id, name: config.delete(:name))
+    format_with(formatter_name) if formatter_name
+  end
+
+  def add_parser_formatter(*params, &block)
+    formatter_name = !params.first.is_a?(Hash) ? params.first : :custom
+    config = (params.first.is_a?(Hash) ? params.first : params.second) || {}
+    @current_attr.add_formatter(formatter_name, config, &block)
+  end
+
+  def add_parser_callback(callback_method = nil, &block)
+    action = callback_method || block
+    parser_callbacks.add_callback(type: :after_parse_item, action: action)
+  end
 end
