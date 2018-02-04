@@ -43,6 +43,10 @@ module XlsHelpers
   def add_file_validator(validator)
     subject.file_validators << validator
   end
+
+  def add_callback(type, action)
+    subject.parser_callbacks.add_callback(type: type, action: action)
+  end
 end
 
 RSpec.configure do |config|

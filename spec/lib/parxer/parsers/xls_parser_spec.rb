@@ -39,6 +39,7 @@ describe Parxer::XlsParser, :xls do
   before do
     mock_spreadsheet_open(file, "valid")
 
+    # Attributes
     add_attribute(:brand_name, name: "Marca")
     add_attribute(:distributor_name, name: "Sub Distribuidor")
     add_attribute(:address, name: "Direccion")
@@ -46,11 +47,9 @@ describe Parxer::XlsParser, :xls do
     add_attribute(:region, name: "Region")
     add_attribute(:phone, name: "Telefono")
 
+    # Validators
     add_validator(:brand_name, Parxer::PresenceValidator.new)
     add_validator(:commune, Parxer::PresenceValidator.new)
-    add_file_validator(Parxer::FilePresenceValidator.new)
-    add_file_validator(Parxer::XlsFormatValidator.new)
-    add_file_validator(Parxer::HeaderOrderValidator.new)
 
     custom_validator_config = {
       id: "custom",
@@ -60,12 +59,30 @@ describe Parxer::XlsParser, :xls do
 
     add_validator(:commune, Parxer::CustomValidator.new(custom_validator_config))
 
+    # File Validators
+    add_file_validator(Parxer::FilePresenceValidator.new)
+    add_file_validator(Parxer::XlsFormatValidator.new)
+    add_file_validator(Parxer::HeaderOrderValidator.new)
+
+    # Formatters
     custom_formatter_config = {
       formatter_proc: Proc.new { "Hello #{value}!" }
     }
 
     add_formatter(:brand_name, Parxer::CustomFormatter.new(custom_formatter_config))
     add_formatter(:phone, Parxer::NumberFormatter.new(integer: true))
+
+    # Callbacks
+    callback1 = Proc.new do
+      row.brand_name = "#{row.brand_name} :)" unless row.brand_name.blank?
+    end
+
+    callback2 = Proc.new do
+      row.phone = row.phone * 2 if row.phone
+    end
+
+    add_callback(:after_parse_item, callback1)
+    add_callback(:after_parse_item, callback2)
   end
 
   it { expect(subject.valid_file?).to eq(true) }
@@ -114,12 +131,12 @@ describe Parxer::XlsParser, :xls do
     it { expect(@item).to be_a(Parxer::Item) }
     it { expect(@item.errors.blank?).to eq(true) }
     it { expect(@item.idx).to eq(2) }
-    it { expect(@item.brand_name).to eq("Hello Platanus!") }
+    it { expect(@item.brand_name).to eq("Hello Platanus! :)") }
     it { expect(@item.distributor_name).to eq(distributor_name) }
     it { expect(@item.address).to eq(address) }
     it { expect(@item.commune).to eq(commune) }
     it { expect(@item.region).to eq(region) }
-    it { expect(@item.phone).to eq(3097219) }
+    it { expect(@item.phone).to eq(6194438) }
   end
 
   context "when column has errors" do

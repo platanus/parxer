@@ -2,6 +2,7 @@ class Parxer::BaseParser
   include Parxer::ParserInheritedResource
   include Parxer::ParserValidator
   include Parxer::ParserFormatter
+  include Parxer::ParserCallback
 
   attr_reader :file, :value, :attribute, :item
 
@@ -54,6 +55,8 @@ class Parxer::BaseParser
       @attribute = attributes.find_attribute(attribute_name)
       format_attribute_value if validate_item_attribute
     end
+
+    after_parse_item
   end
 
   def for_each_raw_item
