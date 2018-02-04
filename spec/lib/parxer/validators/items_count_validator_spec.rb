@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::ItemsCountValidator do
+describe Parxer::Validator::ItemsCount do
   let(:max_count) { 10 }
   let(:items_count) { 5 }
   let(:validator_config) { { max: max_count } }

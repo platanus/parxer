@@ -19,13 +19,13 @@ class Parxer::Validators < Array
   def validator_instance(validator_name, config = {}, &block)
     config[:id] = validator_name
     validator_class = infer_validator_class(validator_name)
-    config[:condition_proc] = block if validator_class == Parxer::CustomValidator
+    config[:condition_proc] = block if validator_class == Parxer::Validator::Custom
     validator_class.new(config)
   end
 
   def infer_validator_class(validator_name)
-    "Parxer::#{validator_name.to_s.camelize}Validator".constantize
+    "Parxer::Validator::#{validator_name.to_s.camelize}".constantize
   rescue NameError
-    Parxer::CustomValidator
+    Parxer::Validator::Custom
   end
 end

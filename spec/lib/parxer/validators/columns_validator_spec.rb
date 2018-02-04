@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::HeaderOrderValidator do
+describe Parxer::Validator::HeaderOrder do
   let(:header) { ["A", "B"] }
   let(:attributes) do
     [

@@ -1,5 +1,9 @@
-class Parxer::PresenceValidator < Parxer::BaseValidator
-  def validate
-    !context.value.to_s.blank?
+module Parxer
+  module Validator
+    class Presence < Base
+      def validate
+        !context.value.to_s.blank?
+      end
+    end
   end
 end

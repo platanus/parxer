@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::CustomValidator do
+describe Parxer::Validator::Custom do
   let(:value) { 4 }
   let(:ctx) { double(value: value) }
   let(:id) { "custom" }

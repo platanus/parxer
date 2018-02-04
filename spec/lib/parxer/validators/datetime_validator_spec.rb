@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::DatetimeValidator do
+describe Parxer::Validator::Datetime do
   let(:value) { Date.current }
   let(:date_format) { nil }
   let(:validator_config) { { format: date_format } }

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::RutValidator do
+describe Parxer::Validator::Rut do
   let(:value) { "9.328.797-5" }
   let(:config) { { context: ctx } }
   let(:ctx) { double(value: value) }

@@ -16,7 +16,7 @@ describe Parxer::Validators do
     context "adding known validator" do
       before { @validator = add_validator }
 
-      it { expect(@validator).to be_a(Parxer::PresenceValidator) }
+      it { expect(@validator).to be_a(Parxer::Validator::Presence) }
       it { expect(@validator.id).to eq(:presence) }
       it { expect(@validator.context).to eq(ctx) }
       it { expect(@validator.config[:some]).to eq("config") }
@@ -30,7 +30,7 @@ describe Parxer::Validators do
       let(:validator_name) { "another" }
       before { @validator = add_validator }
 
-      it { expect(@validator).to be_a(Parxer::CustomValidator) }
+      it { expect(@validator).to be_a(Parxer::Validator::Custom) }
       it { expect(@validator.id).to eq(:another) }
       it { expect(@validator.context).to eq(ctx) }
       it { expect(@validator.config[:some]).to eq("config") }

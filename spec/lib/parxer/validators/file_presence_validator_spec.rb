@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::FilePresenceValidator do
+describe Parxer::Validator::FilePresence do
   let(:file) { double }
   let(:ctx) { double(file: file) }
 

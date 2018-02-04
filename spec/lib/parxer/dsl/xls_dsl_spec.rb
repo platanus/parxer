@@ -72,12 +72,12 @@ RSpec.describe Parxer::XlsDsl do
       end
 
       it { expect(@validators_attr1.count).to eq(2) }
-      it { expect(@validators_attr1.first).to be_a(Parxer::PresenceValidator) }
-      it { expect(@validators_attr1.last).to be_a(Parxer::CustomValidator) }
+      it { expect(@validators_attr1.first).to be_a(Parxer::Validator::Presence) }
+      it { expect(@validators_attr1.last).to be_a(Parxer::Validator::Custom) }
       it { expect(@validators_attr1.last.config[:value]).to eq(2) }
 
       it { expect(@validators_attr2.count).to eq(1) }
-      it { expect(@validators_attr2.first).to be_a(Parxer::PresenceValidator) }
+      it { expect(@validators_attr2.first).to be_a(Parxer::Validator::Presence) }
     end
 
     it "raises error trying to run validate outside of attribute context" do
@@ -197,11 +197,11 @@ RSpec.describe Parxer::XlsDsl do
         @validator2 = validators.last
       end
 
-      it { expect(@validator1).to be_a(Parxer::ItemsCountValidator) }
+      it { expect(@validator1).to be_a(Parxer::Validator::ItemsCount) }
       it { expect(@validator1.config[:id]).to eq(:items_count) }
       it { expect(@validator1.config[:max]).to eq(200) }
 
-      it { expect(@validator2).to be_a(Parxer::CustomValidator) }
+      it { expect(@validator2).to be_a(Parxer::Validator::Custom) }
       it { expect(@validator2.config[:id]).to eq(:custom) }
       it { expect(@validator2.config[:value]).to eq(2) }
     end

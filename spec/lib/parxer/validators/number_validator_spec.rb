@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::NumberValidator do
+describe Parxer::Validator::Number do
   let(:value) { 1 }
   let(:validator_config) { {} }
   let(:config) { validator_config.merge(context: ctx) }

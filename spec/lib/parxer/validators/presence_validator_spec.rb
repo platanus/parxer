@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::PresenceValidator do
+describe Parxer::Validator::Presence do
   let(:value) { 1 }
   let(:ctx) { double(value: value) }
 

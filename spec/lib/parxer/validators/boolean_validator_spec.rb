@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::BooleanValidator do
+describe Parxer::Validator::Boolean do
   let(:value) { nil }
   let(:ctx) { double(value: value) }
   let(:config) { { context: ctx } }

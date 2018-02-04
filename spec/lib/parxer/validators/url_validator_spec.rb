@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::UrlValidator do
+describe Parxer::Validator::Url do
   let(:value) { "https://platan.us" }
   let(:config) { { context: ctx } }
   let(:ctx) { double(value: value) }

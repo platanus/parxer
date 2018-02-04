@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::InclusionValidator do
+describe Parxer::Validator::Inclusion do
   let(:options) { [1, 2, 3] }
   let(:value) { 1 }
   let(:validator_config) { { in: options } }

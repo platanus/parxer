@@ -1,11 +1,11 @@
 require "spec_helper"
 
-describe Parxer::BaseValidator do
+describe Parxer::Validator::Base do
   let(:ctx) { double }
 
   subject { described_class.new(context: ctx) }
 
-  it { expect(subject.id).to eq(:base) }
+  it { expect(subject.id).to eq(:basis) }
   it { expect(subject.config).to eq({}) }
 
   describe "#validate" do

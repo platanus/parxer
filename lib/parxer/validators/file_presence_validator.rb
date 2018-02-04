@@ -1,5 +1,9 @@
-class Parxer::FilePresenceValidator < Parxer::BaseValidator
-  def validate
-    !context.file.to_s.blank?
+module Parxer
+  module Validator
+    class FilePresence < Base
+      def validate
+        !context.file.to_s.blank?
+      end
+    end
   end
 end

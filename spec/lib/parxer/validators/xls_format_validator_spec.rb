@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::XlsFormatValidator do
+describe Parxer::Validator::XlsFormat do
   let(:file) { double }
   let(:ctx) { double(file: file) }
 

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::EmailValidator do
+describe Parxer::Validator::Email do
   let(:value) { "leandro@platan.us" }
   let(:config) { { context: ctx } }
   let(:ctx) { double(value: value) }
