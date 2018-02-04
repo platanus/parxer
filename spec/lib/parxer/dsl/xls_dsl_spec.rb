@@ -135,6 +135,53 @@ RSpec.describe Parxer::XlsDsl do
     end
   end
 
+  describe "#after_parse_row" do
+    context "with valid callbacks" do
+      before do
+        class ParserTest < Parxer::XlsParser
+          after_parse_row(:some_callback)
+          after_parse_row do
+            # some action
+          end
+
+          def some_callback
+            # do nothing
+          end
+        end
+
+        @callbacks = ParserTest.parser_callbacks
+        @callback1 = @callbacks.first
+        @callback2 = @callbacks.second
+      end
+
+      it { expect(@callbacks.count).to eq(2) }
+
+      it { expect(@callback1).to be_a(Parxer::Callback) }
+      it { expect(@callback1.type).to eq(:after_parse_item) }
+      it { expect(@callback1.config).to eq({}) }
+      it { expect(@callback1.action).to eq(:some_callback) }
+
+      it { expect(@callback2).to be_a(Parxer::Callback) }
+      it { expect(@callback2.type).to eq(:after_parse_item) }
+      it { expect(@callback2.config).to eq({}) }
+      it { expect(@callback2.action).to be_a(Proc) }
+    end
+
+    it "raises error trying to run after_parse_row in attribute context" do
+      expect do
+        class ParserTest < Parxer::XlsParser
+          column :amount, name: "Amount" do
+            after_parse_row(:some_callback)
+          end
+
+          def some_callback
+            # do nothing
+          end
+        end
+      end.to raise_error(Parxer::DslError, "'after_parse_row' can't run inside 'column' block")
+    end
+  end
+
   context "#validate_xls" do
     context "with valid definition" do
       before do
