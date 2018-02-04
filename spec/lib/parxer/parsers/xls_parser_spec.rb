@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::XlsParser, :xls do
+describe Parxer::XlsParser, :parser, :xls do
   subject { described_class.new }
 
   let(:file) { "valid-file.xls" }
@@ -48,29 +48,28 @@ describe Parxer::XlsParser, :xls do
     add_attribute(:phone, name: "Telefono")
 
     # Validators
-    add_validator(:brand_name, Parxer::PresenceValidator.new)
-    add_validator(:commune, Parxer::PresenceValidator.new)
+    add_validator(:brand_name, :presence)
+    add_validator(:commune, :presence)
 
     custom_validator_config = {
-      id: "custom",
       condition_proc: Proc.new { value == config[:value] },
       value: custom_validator_value
     }
 
-    add_validator(:commune, Parxer::CustomValidator.new(custom_validator_config))
+    add_validator(:commune, :custom, custom_validator_config)
 
     # File Validators
-    add_file_validator(Parxer::FilePresenceValidator.new)
-    add_file_validator(Parxer::XlsFormatValidator.new)
-    add_file_validator(Parxer::HeaderOrderValidator.new)
+    add_file_validator(:file_presence)
+    add_file_validator(:xls_format)
+    add_file_validator(:header_order)
 
     # Formatters
     custom_formatter_config = {
       formatter_proc: Proc.new { "Hello #{value}!" }
     }
 
-    add_formatter(:brand_name, Parxer::CustomFormatter.new(custom_formatter_config))
-    add_formatter(:phone, Parxer::NumberFormatter.new(integer: true))
+    add_formatter(:brand_name, :custom, custom_formatter_config)
+    add_formatter(:phone, :number, integer: true)
 
     # Callbacks
     callback1 = Proc.new do
