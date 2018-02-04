@@ -19,4 +19,12 @@ Dir[File.join(path)].each { |f| require f }
 RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
+
+  config.before(:each) do
+    begin
+      Object.send(:remove_const, :ParserTest)
+    rescue NameError
+      # do nothing
+    end
+  end
 end
