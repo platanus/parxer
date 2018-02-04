@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::StringFormatter do
+describe Parxer::Formatter::String do
   let(:value) { "1" }
   let(:ctx) { double(value: value) }
 

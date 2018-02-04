@@ -14,7 +14,7 @@ describe Parxer::FormatterBuilder do
     context "with existent formatter" do
       before { @formatter = build }
 
-      it { expect(@formatter).to be_a(Parxer::BooleanFormatter) }
+      it { expect(@formatter).to be_a(Parxer::Formatter::Boolean) }
       it { expect(@formatter.config[:formatter_proc]).to be_nil }
       it { expect(@formatter.context).to eq(ctx) }
     end
@@ -24,7 +24,7 @@ describe Parxer::FormatterBuilder do
 
       before { @formatter = build }
 
-      it { expect(@formatter).to be_a(Parxer::CustomFormatter) }
+      it { expect(@formatter).to be_a(Parxer::Formatter::Custom) }
       it { expect(@formatter.config[:formatter_proc]).to eq(formatter_proc) }
       it { expect(@formatter.context).to eq(ctx) }
     end

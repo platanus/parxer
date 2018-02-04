@@ -1,21 +1,25 @@
-class Parxer::NumberFormatter < Parxer::BaseFormatter
-  def format_value(v)
-    v = integer? ? v.to_i : v.to_f
-    v = v.round(round) if round?
-    v
-  end
+module Parxer
+  module Formatter
+    class Number < Base
+      def format_value(v)
+        v = integer? ? v.to_i : v.to_f
+        v = v.round(round) if round?
+        v
+      end
 
-  private
+      private
 
-  def integer?
-    !!config[:integer]
-  end
+      def integer?
+        !!config[:integer]
+      end
 
-  def round?
-    !integer? && !!config[:round]
-  end
+      def round?
+        !integer? && !!config[:round]
+      end
 
-  def round
-    config[:round].to_s.to_i
+      def round
+        config[:round].to_s.to_i
+      end
+    end
   end
 end

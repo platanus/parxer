@@ -33,7 +33,7 @@ RSpec.describe Parxer::XlsDsl do
       it { expect(@attrs.count).to eq(2) }
       it { expect(@attrs.first.id).to eq(:brand_name) }
       it { expect(@attrs.first.name).to eq("Brand") }
-      it { expect(@attrs.first.formatter).to be_a(Parxer::StringFormatter) }
+      it { expect(@attrs.first.formatter).to be_a(Parxer::Formatter::String) }
       it { expect(@attrs.last.id).to eq(:commune) }
       it { expect(@attrs.last.name).to eq("Commune") }
       it { expect(@attrs.last.formatter).to be_nil }
@@ -116,13 +116,13 @@ RSpec.describe Parxer::XlsDsl do
         @formatter_attr3 = @attrs.last.formatter
       end
 
-      it { expect(@formatter_attr1).to be_a(Parxer::NumberFormatter) }
+      it { expect(@formatter_attr1).to be_a(Parxer::Formatter::Number) }
       it { expect(@formatter_attr1.config).to eq(round: 2) }
 
-      it { expect(@formatter_attr2).to be_a(Parxer::CustomFormatter) }
+      it { expect(@formatter_attr2).to be_a(Parxer::Formatter::Custom) }
       it { expect(@formatter_attr2.config.keys).to contain_exactly(:formatter_proc) }
 
-      it { expect(@formatter_attr3).to be_a(Parxer::CustomFormatter) }
+      it { expect(@formatter_attr3).to be_a(Parxer::Formatter::Custom) }
       it { expect(@formatter_attr3.config.keys).to contain_exactly(:opt, :formatter_proc) }
     end
 

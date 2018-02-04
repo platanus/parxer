@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::BaseFormatter do
+describe Parxer::Formatter::Base do
   let(:value) { 1 }
   let(:ctx) { double(value: value) }
   let(:formatter_config) { {} }

@@ -24,6 +24,7 @@ class Parxer::Validators < Array
   end
 
   def infer_validator_class(validator_name)
+    return Parxer::Validator::Custom if validator_name.blank?
     "Parxer::Validator::#{validator_name.to_s.camelize}".constantize
   rescue NameError
     Parxer::Validator::Custom

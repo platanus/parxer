@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::NumberFormatter do
+describe Parxer::Formatter::Number do
   let(:value) { 1.567 }
   let(:ctx) { double(value: value) }
   let(:formatter_config) { {} }

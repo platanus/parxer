@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::BooleanFormatter do
+describe Parxer::Formatter::Boolean do
   let(:value) { true }
   let(:ctx) { double(value: value) }
 

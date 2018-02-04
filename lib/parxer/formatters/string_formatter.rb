@@ -1,5 +1,9 @@
-class Parxer::StringFormatter < Parxer::BaseFormatter
-  def format_value(v)
-    v
+module Parxer
+  module Formatter
+    class String < Base
+      def format_value(v)
+        v
+      end
+    end
   end
 end
