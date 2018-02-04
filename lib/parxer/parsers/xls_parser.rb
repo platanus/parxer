@@ -5,6 +5,10 @@ class Parxer::XlsParser < Parxer::BaseParser
     worksheet
   end
 
+  def row
+    item
+  end
+
   def extract_raw_attr_value(value)
     value.is_a?(Spreadsheet::Formula) ? value.value : value
   end
