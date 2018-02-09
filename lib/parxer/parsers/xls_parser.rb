@@ -1,5 +1,5 @@
 class Parxer::XlsParser < Parxer::BaseParser
-  extend Parxer::XlsDsl
+  include Parxer::XlsDsl
 
   def raw_items
     worksheet
