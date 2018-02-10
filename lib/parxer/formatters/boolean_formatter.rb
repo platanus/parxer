@@ -6,7 +6,8 @@ module Parxer
 
       def format_value(v)
         return true if TRUE_OPTIONS.include?(v)
-        return true if FALSE_OPTIONS.include?(v)
+        return false if FALSE_OPTIONS.include?(v)
+        nil
       end
     end
   end
