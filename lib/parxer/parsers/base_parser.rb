@@ -6,7 +6,7 @@ module Parxer
     include Parxer::ParserFormatter
     include Parxer::ParserCallback
 
-    attr_reader :file, :value, :attribute, :item
+    attr_reader :file, :value, :attribute, :item, :prev_item
 
     def run(file)
       @file = file
@@ -17,6 +17,7 @@ module Parxer
           @item = item_class.new(idx: idx)
           parse_item(raw_item)
           enum << item
+          @prev_item = item
         end
       end
     end

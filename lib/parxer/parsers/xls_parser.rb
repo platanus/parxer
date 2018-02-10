@@ -10,6 +10,10 @@ module Parxer
       item
     end
 
+    def prev_row
+      prev_item
+    end
+
     def extract_raw_attr_value(value)
       value.is_a?(Spreadsheet::Formula) ? value.value : value
     end
