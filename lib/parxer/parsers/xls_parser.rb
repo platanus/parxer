@@ -15,15 +15,21 @@ module Parxer
     end
 
     def extract_raw_attr_value(value)
-      value.is_a?(Spreadsheet::Formula) ? value.value : value
+      value
     end
 
     def worksheet
-      @worksheet ||= workbook.worksheet(0)
+      @worksheet ||= workbook.sheet(0)
     end
 
     def workbook
-      @workbook ||= Spreadsheet.open(file)
+      @workbook ||= Roo::Spreadsheet.open(file, extension: file_ext)
+    end
+
+    private
+
+    def file_ext
+      file.split(".").last.to_sym
     end
   end
 end
