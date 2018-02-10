@@ -1,5 +1,6 @@
 class Parxer::BaseParser
   include Parxer::ParserInheritedResource
+  include Parxer::ParserAttributes
   include Parxer::ParserValidator
   include Parxer::ParserFormatter
   include Parxer::ParserCallback
@@ -35,24 +36,12 @@ class Parxer::BaseParser
     raw_items.count
   end
 
-  def attribute_ids
-    attributes.map(&:id)
-  end
-
-  def attributes
-    @attributes ||= inherited_resource(:attributes, Parxer::Attributes)
-  end
-
-  def self.attributes
-    @attributes ||= Parxer::Attributes.new
-  end
-
   private
 
   def parse_item(raw_item)
     raw_item.each do |attribute_name, value|
       @value = item.send("#{attribute_name}=", value)
-      @attribute = attributes.find_attribute(attribute_name)
+      @attribute = find_attribute(attribute_name)
       format_attribute_value if validate_item_attribute
     end
 
