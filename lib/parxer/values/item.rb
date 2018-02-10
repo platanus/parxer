@@ -1,15 +1,17 @@
-class Parxer::Item
-  extend Forwardable
+module Parxer
+  class Item
+    extend Forwardable
 
-  attr_reader :idx
+    attr_reader :idx
 
-  def_delegators :errors, :add_error, :attribute_error, :attribute_error?, :errors?
+    def_delegators :errors, :add_error, :attribute_error, :attribute_error?, :errors?
 
-  def initialize(idx: nil)
-    @idx = idx
-  end
+    def initialize(idx: nil)
+      @idx = idx
+    end
 
-  def errors
-    @errors ||= Parxer::ItemErrors.new
+    def errors
+      @errors ||= Parxer::ItemErrors.new
+    end
   end
 end
