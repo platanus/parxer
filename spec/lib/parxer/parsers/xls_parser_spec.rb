@@ -90,8 +90,6 @@ describe Parxer::XlsParser, :parser, :xls do
   it { expect(subject.value).to be_nil }
   it { expect(subject.row).to be_nil }
   it { expect(subject.prev_row).to be_nil }
-  it { expect(subject.row).to be_nil }
-  it { expect(subject.prev_row).to be_nil }
 
   context "with no file" do
     let(:file) { "" }

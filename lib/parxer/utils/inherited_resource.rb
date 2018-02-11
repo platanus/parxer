@@ -10,6 +10,16 @@ module Parxer
       result
     end
 
+    def inherited_hash(object, method_name)
+      result = {}
+
+      for_each_ancestor_with_method(object, method_name) do |hash|
+        result.merge!(hash)
+      end
+
+      result
+    end
+
     def for_each_ancestor_with_method(object, method_name, &block)
       object_ancestors(object).each do |klass|
         next unless klass.respond_to?(method_name)

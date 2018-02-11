@@ -207,4 +207,21 @@ RSpec.describe Parxer::Dsl do
       it { expect(@validator2.config[:value]).to eq(2) }
     end
   end
+
+  context "#add_parser_option" do
+    context "with valid definition" do
+      before do
+        class ParserTest < Parxer::BaseParser
+          include Parxer::Dsl
+
+          add_parser_option(:opt1, 1)
+          add_parser_option(:opt2, 2)
+        end
+
+        @config = ParserTest.parser_config
+      end
+
+      it { expect(@config).to eq(opt1: 1, opt2: 2) }
+    end
+  end
 end

@@ -32,6 +32,7 @@ module Parxer
 
       def ctx_dependencies_map
         {
+          add_parser_option: [],
           validate_file: [],
           column: [],
           after_parse_row: [],
@@ -76,6 +77,10 @@ module Parxer
           action = callback_method || block
           parser_callbacks.add_callback(type: :after_parse_row, action: action)
         end
+      end
+
+      def add_parser_option(key, value)
+        in_context { add_config_option(key, value) }
       end
     end
   end
