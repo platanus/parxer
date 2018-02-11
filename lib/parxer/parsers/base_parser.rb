@@ -57,6 +57,7 @@ module Parxer
         format_attribute_value if validate_row_attribute
       end
 
+      validate_row
       after_parse_row
     end
 

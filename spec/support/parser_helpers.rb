@@ -29,6 +29,15 @@ module ParserHelpers
     subject.file_validators.add_validator(validator_name)
   end
 
+  def add_row_validator(validator_name, config = {})
+    if validator_name == :custom
+      condition_proc = config.delete(:condition_proc)
+      subject.row_validators.add_validator(:custom, config, &condition_proc)
+    else
+      subject.row_validators.add_validator(validator_name, config)
+    end
+  end
+
   def add_callback(type, action)
     subject.parser_callbacks.add_callback(type, action)
   end

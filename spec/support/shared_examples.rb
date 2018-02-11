@@ -5,10 +5,10 @@ RSpec.shared_examples :parser do |file_extension|
 
   let(:file) { "valid-file.#{file_extension}" }
   let(:brand_name) { "Platanus" }
-  let(:distributor_name) { double }
-  let(:address) { double }
-  let(:commune) { double }
-  let(:region) { double }
+  let(:distributor_name) { "Leandro" }
+  let(:address) { "Vespucio 525" }
+  let(:commune) { "Carrodilla" }
+  let(:region) { "Mendoza" }
   let(:phone) { "3097219-8" }
   let(:custom_validator_value) { commune }
 
@@ -57,6 +57,14 @@ RSpec.shared_examples :parser do |file_extension|
     }
 
     add_validator(:commune, :custom, custom_validator_config)
+
+    # Row Validators
+    custom_row_validator_config = {
+      condition_proc: Proc.new { !!row.region },
+      if_valid: [:brand_name]
+    }
+
+    add_row_validator(:custom, custom_row_validator_config)
 
     # File Validators
     add_file_validator(:header_order)
@@ -144,7 +152,6 @@ RSpec.shared_examples :parser do |file_extension|
 
     before { @row = first_parsed_row }
 
-    it { expect(subject.valid_file?).to eq(true) }
     it { expect(@row.brand_name).to eq("") }
     it { expect(@row.errors.count).to eq(1) }
     it { expect(@row.errors[:brand_name]).to eq(:presence) }
@@ -156,7 +163,6 @@ RSpec.shared_examples :parser do |file_extension|
 
     before { @row = first_parsed_row }
 
-    it { expect(subject.valid_file?).to eq(true) }
     it { expect(@row.errors.count).to eq(2) }
     it { expect(@row.errors[:brand_name]).to eq(:presence) }
     it { expect(@row.errors[:commune]).to eq(:presence) }
@@ -168,7 +174,6 @@ RSpec.shared_examples :parser do |file_extension|
 
     before { @row = first_parsed_row }
 
-    it { expect(subject.valid_file?).to eq(true) }
     it { expect(@row.errors.count).to eq(1) }
     it { expect(@row.errors[:commune]).to eq(:presence) }
   end
@@ -178,8 +183,25 @@ RSpec.shared_examples :parser do |file_extension|
 
     before { @row = first_parsed_row }
 
-    it { expect(subject.valid_file?).to eq(true) }
     it { expect(@row.errors.count).to eq(1) }
     it { expect(@row.errors[:commune]).to eq(:custom) }
+  end
+
+  context "working with row validators" do
+    let(:region) { nil }
+
+    before { @row = first_parsed_row }
+
+    it { expect(@row.errors.count).to eq(1) }
+    it { expect(@row.errors[:base]).to eq(:custom) }
+
+    context "when attribute contained in 'is_valid' option is invalid" do
+      let(:brand_name) { nil }
+
+      before { @row = first_parsed_row }
+
+      it { expect(@row.errors.count).to eq(1) }
+      it { expect(@row.errors[:brand_name]).to eq(:presence) }
+    end
   end
 end
