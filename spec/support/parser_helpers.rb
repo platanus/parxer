@@ -32,8 +32,51 @@ module ParserHelpers
   def add_callback(type, action)
     subject.parser_callbacks.add_callback(type: type, action: action)
   end
+
+  def mock_file_open(_file, _response)
+    raise "not implemented"
+  end
+
+  def mock_file_content(_content)
+    raise "not implemented"
+  end
+
+  def mock_parser_run
+    xls_content = [file_header, file_row]
+    mock_file_content(xls_content)
+    perform
+  end
+
+  def first_parsed_row
+    mock_parser_run.first
+  end
+end
+
+module CsvHelpers
+  include ::ParserHelpers
+
+  def mock_file_open(file, response)
+    allow(Roo::CSV).to receive(:new).with(file, kind_of(hash)).and_return(response)
+  end
+
+  def mock_file_content(content)
+    allow_any_instance_of(described_class).to receive(:csv).and_return(content)
+  end
+end
+
+module XlsHelpers
+  include ::ParserHelpers
+
+  def mock_file_open(file, response)
+    allow(Spreadsheet).to receive(:open).with(file).and_return(response)
+  end
+
+  def mock_file_content(content)
+    allow_any_instance_of(described_class).to receive(:worksheet).and_return(content)
+  end
 end
 
 RSpec.configure do |config|
-  config.include ParserHelpers, :parser
+  config.include XlsHelpers, :xls
+  config.include CsvHelpers, :csv
 end

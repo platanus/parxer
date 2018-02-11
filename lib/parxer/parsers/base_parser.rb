@@ -39,6 +39,12 @@ module Parxer
       raw_rows.count
     end
 
+    def file_extension
+      ext = File.extname(file.to_s).delete(".")
+      return if ext.blank?
+      ext.to_sym
+    end
+
     private
 
     def parse_row(raw_row)
