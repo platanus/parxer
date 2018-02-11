@@ -1,5 +1,7 @@
 module Parxer
   class XlsParser < Parxer::BaseParser
+    validate_file(:file_format, allowed_extensions: [:xls, :xlsx])
+
     def raw_rows
       worksheet
     end
