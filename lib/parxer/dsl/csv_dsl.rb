@@ -1,11 +1,11 @@
 module Parxer
-  module XlsDsl
+  module CsvDsl
     extend ActiveSupport::Concern
 
     included do |base|
       base.include Parxer::Dsl
 
-      define_alias_method(base, :define_file_validator, :validate_xls)
+      define_alias_method(base, :define_file_validator, :validate_csv)
       define_alias_method(base, :define_attribute, :column)
       define_alias_method(base, :define_after_parse_item_callback, :after_parse_row)
       define_alias_method(base, :define_attribute_validator, :validate)

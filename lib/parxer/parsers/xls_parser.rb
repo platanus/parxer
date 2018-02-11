@@ -18,6 +18,8 @@ module Parxer
       value
     end
 
+    private
+
     def worksheet
       @worksheet ||= workbook.sheet(0)
     end
@@ -25,8 +27,6 @@ module Parxer
     def workbook
       @workbook ||= Roo::Spreadsheet.open(file, extension: file_ext)
     end
-
-    private
 
     def file_ext
       file.split(".").last.to_sym
