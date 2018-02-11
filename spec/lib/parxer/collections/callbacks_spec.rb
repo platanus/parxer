@@ -2,7 +2,7 @@ require "spec_helper"
 
 # rubocop:disable Metrics/LineLength
 describe Parxer::Callbacks do
-  let(:type) { "after_parse_item" }
+  let(:type) { "after_parse_row" }
   let(:action) { Proc.new {} }
   let(:config) { nil }
 
@@ -38,7 +38,7 @@ describe Parxer::Callbacks do
   describe "#by_type" do
     before { subject.add_callback(params) }
 
-    it { expect(subject.by_type(:after_parse_item).count).to eq(1) }
+    it { expect(subject.by_type(:after_parse_row).count).to eq(1) }
     it { expect(subject.by_type(:invalid).count).to eq(0) }
   end
 end

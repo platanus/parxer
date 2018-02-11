@@ -1,5 +1,5 @@
 module Parxer
-  class Item
+  class Row
     extend Forwardable
 
     attr_reader :idx
@@ -11,7 +11,7 @@ module Parxer
     end
 
     def errors
-      @errors ||= Parxer::ItemErrors.new
+      @errors ||= Parxer::RowErrors.new
     end
   end
 end

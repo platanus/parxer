@@ -1,5 +1,5 @@
 module Parxer
-  class ItemErrors < Hash
+  class RowErrors < Hash
     def add_error(attribute_name, error)
       self[attribute_name.to_sym] = error
     end

@@ -2,16 +2,8 @@ module Parxer
   class XlsParser < Parxer::BaseParser
     include Parxer::Dsl
 
-    def raw_items
+    def raw_rows
       worksheet
-    end
-
-    def row
-      item
-    end
-
-    def prev_row
-      prev_item
     end
 
     def extract_raw_attr_value(value)

@@ -1,8 +1,8 @@
 module Parxer
   module Validator
-    class ItemsCount < Base
+    class RowsCount < Base
       def validate
-        context.items_count <= config[:max].to_i
+        context.rows_count <= config[:max].to_i
       end
     end
   end

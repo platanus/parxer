@@ -23,13 +23,13 @@ module Parxer
         valid_file?
       end
 
-      def validate_item_attribute
+      def validate_row_attribute
         valid = true
 
         attribute.validators.each do |validator|
           validator.context = self
-          next if item.attribute_error?(attribute.id) || validator.validate
-          item.add_error(attribute.id, validator.id)
+          next if row.attribute_error?(attribute.id) || validator.validate
+          row.add_error(attribute.id, validator.id)
           valid = false
         end
 

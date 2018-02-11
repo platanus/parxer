@@ -13,7 +13,7 @@ module XlsHelpers
     perform
   end
 
-  def first_parsed_item
+  def first_parsed_row
     mock_xls_parser_run.first
   end
 end

@@ -1,6 +1,6 @@
 module Parxer
   class Callbacks < Array
-    CALLBACK_TYPES = %i{after_parse_item}
+    CALLBACK_TYPES = %i{after_parse_row}
 
     def add_callback(type: nil, action: nil, config: {})
       if !CALLBACK_TYPES.include?(type.to_sym)

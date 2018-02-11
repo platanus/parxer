@@ -7,8 +7,8 @@ module Parxer
         @parser_callbacks ||= inherited_collection(self, :parser_callbacks, Parxer::Callbacks)
       end
 
-      def after_parse_item
-        parser_callbacks.by_type(:after_parse_item).each do |callback|
+      def after_parse_row
+        parser_callbacks.by_type(:after_parse_row).each do |callback|
           callback.context = self
           callback.run
         end

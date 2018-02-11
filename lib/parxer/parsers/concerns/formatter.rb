@@ -7,7 +7,7 @@ module Parxer
         formatter = attribute.formatter
         return unless formatter
         formatter.context = self
-        item.send("#{attribute.id}=", formatter.apply)
+        row.send("#{attribute.id}=", formatter.apply)
       end
     end
   end

@@ -154,12 +154,12 @@ RSpec.describe Parxer::Dsl do
       it { expect(@callbacks.count).to eq(2) }
 
       it { expect(@callback1).to be_a(Parxer::Callback) }
-      it { expect(@callback1.type).to eq(:after_parse_item) }
+      it { expect(@callback1.type).to eq(:after_parse_row) }
       it { expect(@callback1.config).to eq({}) }
       it { expect(@callback1.action).to eq(:some_callback) }
 
       it { expect(@callback2).to be_a(Parxer::Callback) }
-      it { expect(@callback2.type).to eq(:after_parse_item) }
+      it { expect(@callback2.type).to eq(:after_parse_row) }
       it { expect(@callback2.config).to eq({}) }
       it { expect(@callback2.action).to be_a(Proc) }
     end
@@ -187,7 +187,7 @@ RSpec.describe Parxer::Dsl do
         class ParserTest < Parxer::BaseParser
           include Parxer::Dsl
 
-          validate_file(:items_count, max: 200)
+          validate_file(:rows_count, max: 200)
           validate_file(:custom, value: 2) do
             # some condition
           end
@@ -198,8 +198,8 @@ RSpec.describe Parxer::Dsl do
         @validator2 = validators.last
       end
 
-      it { expect(@validator1).to be_a(Parxer::Validator::ItemsCount) }
-      it { expect(@validator1.config[:id]).to eq(:items_count) }
+      it { expect(@validator1).to be_a(Parxer::Validator::RowsCount) }
+      it { expect(@validator1.config[:id]).to eq(:rows_count) }
       it { expect(@validator1.config[:max]).to eq(200) }
 
       it { expect(@validator2).to be_a(Parxer::Validator::Custom) }

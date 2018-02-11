@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Parxer::ItemErrors do
+describe Parxer::RowErrors do
   let(:errors) { described_class.new }
 
   describe "#add_error" do

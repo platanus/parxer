@@ -26,7 +26,7 @@ describe Parxer::Validator::Custom do
 
     it { expect(execute).to eq(true) }
 
-    context "when proc resolves to false based on given item and value" do
+    context "when proc resolves to false based on given row and value" do
       let(:value) { 2 }
 
       it { expect(execute).to eq(false) }

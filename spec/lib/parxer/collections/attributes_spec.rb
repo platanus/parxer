@@ -10,12 +10,12 @@ describe Parxer::Attributes do
     it { expect { subject.add_attribute(attr_id, params) }.to change(subject, :count).from(0).to(1) }
     it { expect { subject.add_attribute(attr_id, params) }.to change(subject, :first).from(nil).to(kind_of(Parxer::Attribute)) }
 
-    context "with added item" do
-      before { @item = subject.add_attribute(attr_id, params) }
+    context "with added row" do
+      before { @row = subject.add_attribute(attr_id, params) }
 
-      it { expect(@item.id).to eq(attr_id.to_sym) }
-      it { expect(@item.name).to eq(params[:name]) }
-      it { expect(@item.validators).to eq([]) }
+      it { expect(@row.id).to eq(attr_id.to_sym) }
+      it { expect(@row.name).to eq(params[:name]) }
+      it { expect(@row.validators).to eq([]) }
       it { expect { subject.add_attribute(attr_id, params) }.to raise_error(Parxer::AttributesError, "trying to add attribute with existent id") }
     end
   end

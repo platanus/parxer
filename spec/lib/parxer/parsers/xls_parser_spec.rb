@@ -80,16 +80,16 @@ describe Parxer::XlsParser, :parser, :xls do
       row.phone = row.phone * 2 if row.phone
     end
 
-    add_callback(:after_parse_item, callback1)
-    add_callback(:after_parse_item, callback2)
+    add_callback(:after_parse_row, callback1)
+    add_callback(:after_parse_row, callback2)
   end
 
   it { expect(subject.valid_file?).to eq(true) }
   it { expect(subject.file).to be_nil }
   it { expect(subject.attribute).to be_nil }
   it { expect(subject.value).to be_nil }
-  it { expect(subject.item).to be_nil }
-  it { expect(subject.prev_item).to be_nil }
+  it { expect(subject.row).to be_nil }
+  it { expect(subject.prev_row).to be_nil }
   it { expect(subject.row).to be_nil }
   it { expect(subject.prev_row).to be_nil }
 
@@ -126,62 +126,62 @@ describe Parxer::XlsParser, :parser, :xls do
     it { expect(subject.file_error).to eq(:header_order) }
   end
 
-  context "with valid parsed item" do
-    before { @item = first_parsed_item }
+  context "with valid parsed row" do
+    before { @row = first_parsed_row }
 
     it { expect(subject.valid_file?).to eq(true) }
-    it { expect(@item).to be_a(Parxer::Item) }
-    it { expect(@item.errors.blank?).to eq(true) }
-    it { expect(@item.idx).to eq(2) }
-    it { expect(@item.brand_name).to eq("Hello Platanus! :)") }
-    it { expect(@item.distributor_name).to eq(distributor_name) }
-    it { expect(@item.address).to eq(address) }
-    it { expect(@item.commune).to eq(commune) }
-    it { expect(@item.region).to eq(region) }
-    it { expect(@item.phone).to eq(6194438) }
+    it { expect(@row).to be_a(Parxer::Row) }
+    it { expect(@row.errors.blank?).to eq(true) }
+    it { expect(@row.idx).to eq(2) }
+    it { expect(@row.brand_name).to eq("Hello Platanus! :)") }
+    it { expect(@row.distributor_name).to eq(distributor_name) }
+    it { expect(@row.address).to eq(address) }
+    it { expect(@row.commune).to eq(commune) }
+    it { expect(@row.region).to eq(region) }
+    it { expect(@row.phone).to eq(6194438) }
   end
 
   context "when column has errors" do
     let(:brand_name) { "" }
 
-    before { @item = first_parsed_item }
+    before { @row = first_parsed_row }
 
     it { expect(subject.valid_file?).to eq(true) }
-    it { expect(@item.brand_name).to eq("") }
-    it { expect(@item.errors.count).to eq(1) }
-    it { expect(@item.errors[:brand_name]).to eq(:presence) }
+    it { expect(@row.brand_name).to eq("") }
+    it { expect(@row.errors.count).to eq(1) }
+    it { expect(@row.errors[:brand_name]).to eq(:presence) }
   end
 
-  context "when item has errors on multiple attributes" do
+  context "when row has errors on multiple attributes" do
     let(:brand_name) { "" }
     let(:commune) { nil }
 
-    before { @item = first_parsed_item }
+    before { @row = first_parsed_row }
 
     it { expect(subject.valid_file?).to eq(true) }
-    it { expect(@item.errors.count).to eq(2) }
-    it { expect(@item.errors[:brand_name]).to eq(:presence) }
-    it { expect(@item.errors[:commune]).to eq(:presence) }
+    it { expect(@row.errors.count).to eq(2) }
+    it { expect(@row.errors[:brand_name]).to eq(:presence) }
+    it { expect(@row.errors[:commune]).to eq(:presence) }
   end
 
   context "when same attribute has multiple errors" do
     let(:commune) { nil }
     let(:custom_validator_value) { "invalid" }
 
-    before { @item = first_parsed_item }
+    before { @row = first_parsed_row }
 
     it { expect(subject.valid_file?).to eq(true) }
-    it { expect(@item.errors.count).to eq(1) }
-    it { expect(@item.errors[:commune]).to eq(:presence) }
+    it { expect(@row.errors.count).to eq(1) }
+    it { expect(@row.errors[:commune]).to eq(:presence) }
   end
 
   context "when attribute with multiple validators has some valid/invalid" do
     let(:custom_validator_value) { "invalid" }
 
-    before { @item = first_parsed_item }
+    before { @row = first_parsed_row }
 
     it { expect(subject.valid_file?).to eq(true) }
-    it { expect(@item.errors.count).to eq(1) }
-    it { expect(@item.errors[:commune]).to eq(:custom) }
+    it { expect(@row.errors.count).to eq(1) }
+    it { expect(@row.errors[:commune]).to eq(:custom) }
   end
 end
