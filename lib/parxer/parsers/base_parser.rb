@@ -6,8 +6,12 @@ module Parxer
     include Parxer::ParserValidator
     include Parxer::ParserFormatter
     include Parxer::ParserCallback
+    include Parxer::Dsl
 
     attr_reader :file, :value, :attribute, :row, :prev_row
+
+    validate_file(:file_presence)
+    validate_file(:file_format)
 
     def run(file)
       @file = file

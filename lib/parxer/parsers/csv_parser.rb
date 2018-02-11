@@ -1,7 +1,5 @@
 module Parxer
   class CsvParser < Parxer::BaseParser
-    include Parxer::Dsl
-
     def raw_rows
       csv
     end

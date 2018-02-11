@@ -59,8 +59,6 @@ RSpec.shared_examples :parser do |file_extension|
     add_validator(:commune, :custom, custom_validator_config)
 
     # File Validators
-    add_file_validator(:file_presence)
-    add_file_validator(:file_format)
     add_file_validator(:header_order)
 
     # Formatters

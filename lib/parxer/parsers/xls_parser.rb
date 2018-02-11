@@ -1,7 +1,5 @@
 module Parxer
   class XlsParser < Parxer::BaseParser
-    include Parxer::Dsl
-
     def raw_rows
       worksheet
     end
