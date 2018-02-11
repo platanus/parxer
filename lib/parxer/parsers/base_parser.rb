@@ -1,6 +1,6 @@
 module Parxer
   class BaseParser
-    include Parxer::ParserInheritedResource
+    include Parxer::InheritedResource
     include Parxer::ParserAttributes
     include Parxer::ParserValidator
     include Parxer::ParserFormatter

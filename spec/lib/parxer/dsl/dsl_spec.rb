@@ -2,14 +2,14 @@ require "spec_helper"
 
 # rubocop:disable Metrics/LineLength
 RSpec.describe Parxer::Dsl do
-  describe "#define_attribute" do
+  describe "#column" do
     context "adding columns" do
       before do
         class ParserTest < Parxer::BaseParser
           include Parxer::Dsl
 
-          define_attribute :brand_name, name: "Brand", format: "string"
-          define_attribute "commune", name: "Commune"
+          column :brand_name, name: "Brand", format: "string"
+          column "commune", name: "Commune"
         end
 
         @attrs = ParserTest.attributes
@@ -28,30 +28,30 @@ RSpec.describe Parxer::Dsl do
           class ParserTest < Parxer::BaseParser
             include Parxer::Dsl
 
-            define_attribute :company, name: "Brand" do
-              define_attribute "commune", name: "Commune"
+            column :company, name: "Brand" do
+              column "commune", name: "Commune"
             end
           end
-        end.to raise_error(Parxer::DslError, "'define_attribute' can't run inside 'define_attribute' block")
+        end.to raise_error(Parxer::DslError, "'column' can't run inside 'column' block")
       end
     end
   end
 
-  context "#define_attribute_validator" do
+  context "#validate" do
     context "with valid definition" do
       before do
         class ParserTest < Parxer::BaseParser
           include Parxer::Dsl
 
-          define_attribute :brand_name, name: "Brand" do
-            define_attribute_validator(:presence)
-            define_attribute_validator(:greater_than, value: 2) do
+          column :brand_name, name: "Brand" do
+            validate(:presence)
+            validate(:greater_than, value: 2) do
               # some condition
             end
           end
 
-          define_attribute :commune, name: "Comuna" do
-            define_attribute_validator(:presence)
+          column :commune, name: "Comuna" do
+            validate(:presence)
           end
         end
 
@@ -74,30 +74,30 @@ RSpec.describe Parxer::Dsl do
         class ParserTest < Parxer::BaseParser
           include Parxer::Dsl
 
-          define_attribute_validator(:presence)
+          validate(:presence)
         end
-      end.to raise_error(Parxer::DslError, "'define_attribute_validator' needs to run inside 'define_attribute' block")
+      end.to raise_error(Parxer::DslError, "'validate' needs to run inside 'column' block")
     end
   end
 
-  context "#define_formatter" do
+  context "#format_with" do
     context "with valid definition" do
       before do
         class ParserTest < Parxer::BaseParser
           include Parxer::Dsl
 
-          define_attribute :amount, name: "Amount" do
-            define_formatter(:number, round: 2)
+          column :amount, name: "Amount" do
+            format_with(:number, round: 2)
           end
 
-          define_attribute :brand_name, name: "Brand" do
-            define_formatter do
+          column :brand_name, name: "Brand" do
+            format_with do
               # some formatting function
             end
           end
 
-          define_attribute :commune, name: "Commune" do
-            define_formatter(opt: 1) do
+          column :commune, name: "Commune" do
+            format_with(opt: 1) do
               # some formatting function
             end
           end
@@ -119,25 +119,25 @@ RSpec.describe Parxer::Dsl do
       it { expect(@formatter_attr3.config.keys).to contain_exactly(:opt, :formatter_proc) }
     end
 
-    it "raises error trying to run define_formatter outside of attribute context" do
+    it "raises error trying to run format_with outside of attribute context" do
       expect do
         class ParserTest < Parxer::BaseParser
           include Parxer::Dsl
 
-          define_formatter(:number)
+          format_with(:number)
         end
-      end.to raise_error(Parxer::DslError, "'define_formatter' needs to run inside 'define_attribute' block")
+      end.to raise_error(Parxer::DslError, "'format_with' needs to run inside 'column' block")
     end
   end
 
-  describe "#define_after_parse_item_callback" do
+  describe "#after_parse_row" do
     context "with valid callbacks" do
       before do
         class ParserTest < Parxer::BaseParser
           include Parxer::Dsl
 
-          define_after_parse_item_callback(:some_callback)
-          define_after_parse_item_callback do
+          after_parse_row(:some_callback)
+          after_parse_row do
             # some action
           end
 
@@ -164,31 +164,31 @@ RSpec.describe Parxer::Dsl do
       it { expect(@callback2.action).to be_a(Proc) }
     end
 
-    it "raises error trying to run define_after_parse_item_callback in attribute context" do
+    it "raises error trying to run after_parse_row in attribute context" do
       expect do
         class ParserTest < Parxer::BaseParser
           include Parxer::Dsl
 
-          define_attribute :amount, name: "Amount" do
-            define_after_parse_item_callback(:some_callback)
+          column :amount, name: "Amount" do
+            after_parse_row(:some_callback)
           end
 
           def some_callback
             # do nothing
           end
         end
-      end.to raise_error(Parxer::DslError, "'define_after_parse_item_callback' can't run inside 'define_attribute' block")
+      end.to raise_error(Parxer::DslError, "'after_parse_row' can't run inside 'column' block")
     end
   end
 
-  context "#define_file_validator" do
+  context "#validate_file" do
     context "with valid definition" do
       before do
         class ParserTest < Parxer::BaseParser
           include Parxer::Dsl
 
-          define_file_validator(:items_count, max: 200)
-          define_file_validator(:custom, value: 2) do
+          validate_file(:items_count, max: 200)
+          validate_file(:custom, value: 2) do
             # some condition
           end
         end

@@ -2,7 +2,7 @@ module Parxer
   module ItemBuilder
     def self.build(attributes)
       Class.new(Parxer::Item) do
-        def self.define_attribute_accessor(attribute)
+        def self.column_accessor(attribute)
           if method_defined?(attribute)
             raise Parxer::ItemError.new("attribute '#{attribute}' already defined")
           end
@@ -13,7 +13,7 @@ module Parxer
         end
 
         attributes.each do |attribute|
-          define_attribute_accessor(attribute)
+          column_accessor(attribute)
         end
       end
     end

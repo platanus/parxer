@@ -8,7 +8,7 @@ module Parxer
       end
 
       def attributes
-        @attributes ||= inherited_resource(:attributes, Parxer::Attributes)
+        @attributes ||= inherited_collection(self, :attributes, Parxer::Attributes)
       end
 
       def find_attribute(attribute_name)

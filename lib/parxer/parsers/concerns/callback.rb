@@ -4,7 +4,7 @@ module Parxer
 
     included do
       def parser_callbacks
-        @parser_callbacks ||= inherited_resource(:parser_callbacks, Parxer::Callbacks)
+        @parser_callbacks ||= inherited_collection(self, :parser_callbacks, Parxer::Callbacks)
       end
 
       def after_parse_item
