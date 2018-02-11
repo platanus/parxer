@@ -75,7 +75,7 @@ module Parxer
       def after_parse_row(callback_method = nil, &block)
         in_context do
           action = callback_method || block
-          parser_callbacks.add_callback(type: :after_parse_row, action: action)
+          parser_callbacks.add_callback(:after_parse_row, action)
         end
       end
 

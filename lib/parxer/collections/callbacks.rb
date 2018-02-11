@@ -2,7 +2,7 @@ module Parxer
   class Callbacks < Array
     CALLBACK_TYPES = %i{after_parse_row}
 
-    def add_callback(type: nil, action: nil, config: {})
+    def add_callback(type, action, config = {})
       if !CALLBACK_TYPES.include?(type.to_sym)
         raise Parxer::CallbacksError.new("invalid '#{type}' callback type")
       end

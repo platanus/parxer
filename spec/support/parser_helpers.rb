@@ -30,7 +30,7 @@ module ParserHelpers
   end
 
   def add_callback(type, action)
-    subject.parser_callbacks.add_callback(type: type, action: action)
+    subject.parser_callbacks.add_callback(type, action)
   end
 
   def mock_file_open(_file, _response)
