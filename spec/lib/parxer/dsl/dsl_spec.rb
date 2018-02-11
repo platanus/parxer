@@ -1,6 +1,5 @@
 require "spec_helper"
 
-# rubocop:disable Metrics/LineLength
 RSpec.describe Parxer::Dsl do
   describe "#column" do
     context "adding columns" do
@@ -205,6 +204,52 @@ RSpec.describe Parxer::Dsl do
       it { expect(@validator2).to be_a(Parxer::Validator::Custom) }
       it { expect(@validator2.config[:id]).to eq(:custom) }
       it { expect(@validator2.config[:value]).to eq(2) }
+
+      it "raises error trying to run validate_file in attribute context" do
+        expect do
+          class ParserTest < Parxer::BaseParser
+            include Parxer::Dsl
+
+            column :amount, name: "Amount" do
+              validate_file(:rows_count, max: 200)
+            end
+          end
+        end.to raise_error(Parxer::DslError, "'validate_file' can't run inside 'column' block")
+      end
+    end
+  end
+
+  context "#validate_row" do
+    context "with valid definition" do
+      before do
+        class ParserTest < Parxer::BaseParser
+          include Parxer::Dsl
+
+          validate_row(:custom, some: "config") do
+            # some condition
+          end
+        end
+
+        @validator = ParserTest.row_validators.first
+      end
+
+      it { expect(@validator).to be_a(Parxer::Validator::Custom) }
+      it { expect(@validator.config[:id]).to eq(:custom) }
+      it { expect(@validator.config[:some]).to eq("config") }
+
+      it "raises error trying to run validate_row in attribute context" do
+        expect do
+          class ParserTest < Parxer::BaseParser
+            include Parxer::Dsl
+
+            column :amount, name: "Amount" do
+              validate_row(:custom, some: "config") do
+                # some condition
+              end
+            end
+          end
+        end.to raise_error(Parxer::DslError, "'validate_row' can't run inside 'column' block")
+      end
     end
   end
 
@@ -222,6 +267,18 @@ RSpec.describe Parxer::Dsl do
       end
 
       it { expect(@config).to eq(opt1: 1, opt2: 2) }
+
+      it "raises error trying to run add_parser_option in attribute context" do
+        expect do
+          class ParserTest < Parxer::BaseParser
+            include Parxer::Dsl
+
+            column :amount, name: "Amount" do
+              add_parser_option(:opt1, 1)
+            end
+          end
+        end.to raise_error(Parxer::DslError, "'add_parser_option' can't run inside 'column' block")
+      end
     end
   end
 end

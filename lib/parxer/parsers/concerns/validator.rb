@@ -9,6 +9,10 @@ module Parxer
         @file_validators ||= inherited_collection(self, :file_validators, Parxer::Validators)
       end
 
+      def row_validators
+        @row_validators ||= inherited_collection(self, :row_validators, Parxer::Validators)
+      end
+
       def valid_file?
         !file_error
       end
@@ -44,6 +48,14 @@ module Parxer
 
       def add_validator(validator_name, config, &block)
         file_validators.add_validator(validator_name, config, &block)
+      end
+
+      def row_validators
+        @row_validators ||= Parxer::Validators.new
+      end
+
+      def add_row_validator(validator_name, config, &block)
+        row_validators.add_validator(validator_name, config, &block)
       end
     end
   end

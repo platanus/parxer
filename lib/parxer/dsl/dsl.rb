@@ -34,6 +34,7 @@ module Parxer
         {
           add_parser_option: [],
           validate_file: [],
+          validate_row: [],
           column: [],
           after_parse_row: [],
           validate: [:column],
@@ -62,6 +63,10 @@ module Parxer
 
       def validate_file(validator_name, config = {}, &block)
         in_context { add_validator(validator_name, config, &block) }
+      end
+
+      def validate_row(validator_name, config = {}, &block)
+        in_context { add_row_validator(validator_name, config, &block) }
       end
 
       def format_with(*params, &block)
