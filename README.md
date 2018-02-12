@@ -20,7 +20,94 @@ bundle install
 
 ## Usage
 
-TODO
+Imagine you have an `xls` file like this:
+
+<img src="./docs/images/superheroes-xls.png" />
+
+To parse this file you need to:
+
+### 1 - Define your Parser using the DSL:
+
+```ruby
+class SuperheroesParser < Parxer::XlsParser
+  validate_file(:rows_count, max: 50) # Define file validators
+
+  column(:name, name: "Name") do # Map column names to attributes
+    validate(:presence) # Add column validator
+    format_with do
+      value.upcase # Define custom formatters
+    end
+  end
+
+  column(:real_name, name: "Real Name")
+
+  column(:super_power, name: "Super Power") do
+    validate(:presence)
+  end
+
+  column(:publisher, name: "Publisher") do
+    validate(:inclusion, in: ["Marvel", "DC"])
+  end
+
+  column(:age, name: "Alive") do
+    validate(:presence)
+    validate(:number)
+    format_with(:number, integer: true) # Use Parxer's formatter
+  end
+
+  column(:is_alive, name: "Alive", format: :boolean) do
+    validate(:presence)
+  end
+
+  # Define validators to run after attribute validators
+  validate_row(:odd_chars, if_valid: [:name, :real_name]) do
+    (row.name + row.real_name).delete(" ").size.odd?
+  end
+
+  # Define callbacks
+  after_parse_row do
+    row.add_attribute(:full_name) # Add attributes dynamically
+    row.full_name = "#{row.name} (#{row.real_name})" unless row.errors?
+  end
+end
+```
+
+### 2 - Initialize your parser:
+
+```ruby
+parser = SuperheroesParser.new
+```
+
+### 3 - Use your parser:
+
+```ruby
+result = parser.run("/some_path/superhero.xls"); #=> #<Enumerator: ...>
+```
+
+Now, if you iterate through each row of the enumerator you will get something like this:
+
+<img src="./docs/images/parxer-response.png" />
+
+As you can see...
+
+1. Attributes like `name` or `is_alive` have been formatted.
+2. Errors in the rows are accessible through the `errors` attribute.
+3. `idx` attribute is the row number.
+4. the custom `full_name` attribute was added as a part of the response.
+
+Some useful methods you can use are:
+
+**In parser context:**
+
+- `parser.valid_file?`
+- `parser.file_error`
+- `parser.run`
+
+**In row (`row = result.next`) context:**
+
+- `row.errors?`
+- `row.errors`
+- `row.attribute_error?(:some_attribute_name)`
 
 ## Testing
 
