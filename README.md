@@ -1,6 +1,10 @@
 # Parxer
 
-ruby gem to parse data from different source types
+Parxer is another parser for xls, xlsx and csv files. But the big plus is that this ruby gem also has a nice DSL to help us with:
+
+- Column mapping.
+- File, row, and column/cell validation.
+- Column/cell formatting.
 
 ## Installation
 
@@ -95,19 +99,7 @@ As you can see...
 3. `idx` attribute is the row number.
 4. the custom `full_name` attribute was added as a part of the response.
 
-Some useful methods you can use are:
-
-**In parser context:**
-
-- `parser.valid_file?`
-- `parser.file_error`
-- `parser.run`
-
-**In row (`row = result.next`) context:**
-
-- `row.errors?`
-- `row.errors`
-- `row.attribute_error?(:some_attribute_name)`
+For further information please go to the [Wiki](https://github.com/platanus/parxer/wiki)
 
 ## Testing
 
