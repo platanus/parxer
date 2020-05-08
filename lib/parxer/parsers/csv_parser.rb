@@ -1,7 +1,5 @@
 module Parxer
   class CsvParser < Parxer::BaseParser
-    validate_file(:file_format, allowed_extensions: [:csv])
-
     def raw_rows
       csv
     end

@@ -107,16 +107,6 @@ RSpec.shared_examples :parser do |file_extension|
     it { expect(subject.file_error).to eq(:file_presence) }
   end
 
-  context "with invalid file format" do
-    before do
-      mock_file_open(file, false)
-      perform
-    end
-
-    it { expect(subject.valid_file?).to eq(false) }
-    it { expect(subject.file_error).to eq(:file_format) }
-  end
-
   context "with invalid header" do
     let(:file_header) do
       [
