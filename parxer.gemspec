@@ -19,15 +19,17 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "require_all"
   spec.add_dependency "activesupport"
+  spec.add_dependency "require_all"
   spec.add_dependency "roo"
   spec.add_dependency "roo-xls"
+
+  spec.add_development_dependency "coveralls"
+  spec.add_development_dependency "guard-rspec", "~> 4.7"
+  spec.add_development_dependency "pry"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.4"
-  spec.add_development_dependency "guard-rspec", "~> 4.7"
+  spec.add_development_dependency "rspec_junit_formatter"
   spec.add_development_dependency "rubocop", "~> 0.65.0"
   spec.add_development_dependency "rubocop-rspec"
-  spec.add_development_dependency "pry"
-  spec.add_development_dependency "coveralls"
 end
