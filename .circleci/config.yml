@@ -70,6 +70,18 @@ jobs:
             bundle exec rspec ./spec/lib $RSPEC_FORMAT_ARGS $RSPEC_JUNIT_ARGS
       - store_test_results:
           path: test_results
+  deploy:
+    executor: main-executor
+    steps:
+      - setup
+      - run:
+          name: Setup rubygems
+          command: bash .circleci/setup-rubygems.sh
+      - run:
+          name: Publish to rubygems
+          command: |
+            gem build parxer.gemspec
+            gem push "parxer-$(git describe --tags).gem"
 
 workflows:
   version: 2
@@ -81,3 +93,10 @@ workflows:
           matrix:
             parameters:
               ruby-version: ["2.5", "2.6", "2.7"]
+      - deploy:
+          context: org-global
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
