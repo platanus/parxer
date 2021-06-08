@@ -85,7 +85,7 @@ jobs:
 
 workflows:
   version: 2
-  test_and_lint:
+  main:
     jobs:
       - lint:
           context: org-global
@@ -95,8 +95,6 @@ workflows:
               ruby-version: ["2.5", "2.6", "2.7"]
       - deploy:
           context: org-global
-          requires:
-            - test
           filters:
             tags:
               only: /.*/
