@@ -1,6 +1,7 @@
 # Parxer
 
 [![Gem Version](https://badge.fury.io/rb/parxer.svg)](https://badge.fury.io/rb/parxer)
+[![CircleCI](https://circleci.com/gh/platanus/parxer.svg?style=shield)](https://app.circleci.com/pipelines/github/platanus/parxer)
 [![Coverage Status](https://coveralls.io/repos/github/platanus/parxer/badge.svg?branch=master)](https://coveralls.io/github/platanus/parxer?branch=master)
 
 Parxer is another parser for xls, xlsx and csv files. But the big plus is that this ruby gem also has a nice DSL to help us with:
