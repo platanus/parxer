@@ -2,11 +2,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Unreleased
+
+##### Changed
+
+* Replace travis with circleci.
+
 ### v0.1.1
 
 ##### Fixed
 
-* Travis config
+* Travis config.
 
 ### v0.1.0
 
