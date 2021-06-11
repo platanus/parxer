@@ -119,7 +119,7 @@ You need to put **all your tests** in the `/my_gem/spec/` directory.
 
 On master/main branch...
 
-1. Change `VERSION` in `lib/gemaker/version.rb`.
+1. Change `VERSION` in `lib/parxer/version.rb`.
 2. Change `Unreleased` title to current version in `CHANGELOG.md`.
 3. Commit new release. For example: `Releasing v0.1.0`.
 4. Create tag. For example: `git tag v0.1.0`.
