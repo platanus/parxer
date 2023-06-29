@@ -15,7 +15,7 @@ describe Parxer::Callback do
     }
   end
 
-  subject { described_class.new(params) }
+  subject { described_class.new(**params) }
 
   describe "#initialize" do
     it { expect(subject.type).to eq(type.to_sym) }
