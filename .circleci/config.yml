@@ -81,7 +81,8 @@ jobs:
           name: Publish to rubygems
           command: |
             gem build parxer.gemspec
-            gem push "parxer-$(git describe --tags).gem"
+            version_tag=$(git describe --tags)
+            gem push parxer-${version_tag#v}.gem
 
 workflows:
   version: 2
