@@ -7,21 +7,21 @@ describe Parxer::Attributes do
   subject { described_class.new }
 
   describe "#add_attribute" do
-    it { expect { subject.add_attribute(attr_id, params) }.to change(subject, :count).from(0).to(1) }
-    it { expect { subject.add_attribute(attr_id, params) }.to change(subject, :first).from(nil).to(kind_of(Parxer::Attribute)) }
+    it { expect { subject.add_attribute(attr_id, **params) }.to change(subject, :count).from(0).to(1) }
+    it { expect { subject.add_attribute(attr_id, **params) }.to change(subject, :first).from(nil).to(kind_of(Parxer::Attribute)) }
 
     context "with added row" do
-      before { @row = subject.add_attribute(attr_id, params) }
+      before { @row = subject.add_attribute(attr_id, **params) }
 
       it { expect(@row.id).to eq(attr_id.to_sym) }
       it { expect(@row.name).to eq(params[:name]) }
       it { expect(@row.validators).to eq([]) }
-      it { expect { subject.add_attribute(attr_id, params) }.to raise_error(Parxer::AttributesError, "trying to add attribute with existent id") }
+      it { expect { subject.add_attribute(attr_id, **params) }.to raise_error(Parxer::AttributesError, "trying to add attribute with existent id") }
     end
   end
 
   describe "#find_attribute" do
-    before { subject.add_attribute(attr_id, params) }
+    before { subject.add_attribute(attr_id, **params) }
 
     it { expect(subject.find_attribute(attr_id)).to be_a(Parxer::Attribute) }
     it { expect(subject.find_attribute("another")).to be_nil }
